@@ -13,7 +13,7 @@
 .nav-cta { padding: 9px 16px; font-size: 13.5px; }
 @media (min-width: 720px) { .nav-links { display: flex; } }
 
-/* ---------- Hero — light, matches register.html ---------- */
+/* ---------- Hero — light, matches register.html ---------- 
 .hero { background: var(--paper); }
 .hero-grid { max-width: 1040px; margin: 0 auto; padding: 40px 24px 48px; display: grid; gap: 32px; }
 @media (min-width: 860px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; align-items: center; padding: 56px 24px 64px; } }
@@ -25,7 +25,7 @@
 .hero-desc strong { color: var(--blue-deep); }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
-.hero .btn-ghost { background: var(--white); color: var(--blue-deep); border-color: var(--border); }
+.hero .btn-ghost { background: var(--white); color: var(--blue-deep); border-color: var(--border); } */
 
 /* Countdown stays the one saturated accent block on an otherwise light hero */
 .countdown-card { background: var(--blue-deep); border-radius: 14px; padding: 18px 20px; max-width: 420px; }
