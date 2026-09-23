@@ -1,0 +1,21 @@
+const express = require('express');
+const router = express.Router();
+const requireAdmin = require('../middleware/requireAdmin');
+const { login, logout } = require('../controllers/authController');
+const { getStats } = require('../controllers/dashboardController');
+const performers = require('../controllers/performerAdminController');
+
+router.post('/login', login);
+router.post('/logout', logout);
+
+router.get('/dashboard', requireAdmin, getStats);
+
+router.get('/performers', requireAdmin, performers.listPerformers);
+router.post('/performers', requireAdmin, performers.onboardPerformer);
+router.patch('/performers/:id/approve', requireAdmin, performers.approvePerformer);
+router.patch('/performers/:id/reject', requireAdmin, performers.rejectPerformer);
+router.patch('/performers/:id/deactivate', requireAdmin, performers.deactivatePerformer);
+router.patch('/performers/:id/reactivate', requireAdmin, performers.reactivatePerformer);
+router.delete('/performers/:id', requireAdmin, performers.hardDeletePerformer);
+
+module.exports = router;
