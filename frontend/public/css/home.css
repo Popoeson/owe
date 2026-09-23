@@ -13,6 +13,33 @@
 .nav-cta { padding: 9px 16px; font-size: 13.5px; }
 @media (min-width: 720px) { .nav-links { display: flex; } }
 
+/* ---------- Hero — light, centered, matches register.html ---------- */
+.hero { background: var(--paper); }
+.hero-grid {
+  max-width: 720px; margin: 0 auto; padding: 40px 24px 48px;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 32px;
+}
+@media (min-width: 860px) { .hero-grid { padding: 56px 24px 64px; } }
+
+.kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: var(--blue-deep); margin: 0 0 14px; }
+.hero h1 { font-size: clamp(32px, 7vw, 48px); font-weight: 800; line-height: 1.1; margin: 0 0 6px; color: var(--text-body); }
+.hero h1 span { color: var(--orange); }
+.hero-sub { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: 0.05em; color: var(--text-muted); margin: 0 0 18px; }
+.hero-desc { color: var(--text-muted); max-width: 46ch; margin: 0 0 28px; }
+.hero-desc strong { color: var(--blue-deep); }
+
+.cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 32px; }
+.hero .btn-ghost { background: var(--white); color: var(--blue-deep); border-color: var(--border); }
+
+.countdown-card { background: var(--blue-deep); border-radius: 14px; padding: 18px 20px; max-width: 420px; width: 100%; }
+.countdown-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--orange-soft); margin: 0 0 12px; text-align: left; }
+.countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+.countdown-grid div { background: var(--blue-ink); border-radius: 8px; padding: 10px 4px; text-align: center; }
+.countdown-grid span { display: block; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 19px; color: var(--white); }
+.countdown-grid small { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--orange-soft); letter-spacing: 0.06em; }
+.countdown-meta { text-align: left; }
+.countdown-meta p { font-size: 12.5px; color: rgba(255,255,255,0.75); margin: 4px 0; }
+
 /* ---------- Hero — light, matches register.html ---------- 
 .hero { background: var(--paper); }
 .hero-grid { max-width: 1040px; margin: 0 auto; padding: 40px 24px 48px; display: grid; gap: 32px; }
@@ -25,7 +52,7 @@
 .hero-desc strong { color: var(--blue-deep); }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
-.hero .btn-ghost { background: var(--white); color: var(--blue-deep); border-color: var(--border); } */
+.hero .btn-ghost { background: var(--white); color: var(--blue-deep); border-color: var(--border); } 
 
 /* Countdown stays the one saturated accent block on an otherwise light hero */
 .countdown-card { background: var(--blue-deep); border-radius: 14px; padding: 18px 20px; max-width: 420px; }
@@ -34,7 +61,7 @@
 .countdown-grid div { background: var(--blue-ink); border-radius: 8px; padding: 10px 4px; text-align: center; }
 .countdown-grid span { display: block; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 19px; color: var(--white); }
 .countdown-grid small { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--orange-soft); letter-spacing: 0.06em; }
-.countdown-meta p { font-size: 12.5px; color: rgba(255,255,255,0.75); margin: 4px 0; }
+.countdown-meta p { font-size: 12.5px; color: rgba(255,255,255,0.75); margin: 4px 0; } */
 
 .hero-art img { width: 100%; height: auto; border-radius: var(--radius); display: block; }
 
