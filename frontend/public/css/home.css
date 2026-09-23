@@ -4,7 +4,7 @@
   padding: 10px 20px; background: var(--blue-deep); position: sticky; top: 0; z-index: 10;
 }
 .nav-brand { display: flex; align-items: center; }
-.nav-logo { height: 50px; width: auto; display: block; }
+.nav-logo { height: 70px; width: auto; display: block; }
 .nav-links { display: none; gap: 20px; font-size: 14px; font-weight: 500; }
 .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; }
 .nav-links a.active { color: var(--white); font-weight: 700; }
