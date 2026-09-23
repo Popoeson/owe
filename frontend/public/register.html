@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register — OKIZZ Entertainment</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/public.css">
+</head>
+<body>
+
+<main class="page">
+  <h1>Register to audition</h1>
+  <p style="color:var(--text-muted); margin: 8px 0 28px;">Fill in your details, upload a photo and audition video, then pay the ₦5,000 audition fee to submit.</p>
+
+  <form id="registerForm">
+    <div class="field">
+      <label for="fullName">Full name</label>
+      <input type="text" id="fullName" required>
+      <p class="hint">Private — used for admin records only.</p>
+    </div>
+
+    <div class="field">
+      <label for="stageName">Stage name</label>
+      <input type="text" id="stageName" required>
+      <p class="hint">This is what appears publicly on the stat board.</p>
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+      <p class="hint">Used for your payment receipt and to reach you.</p>
+    </div>
+
+    <div class="field">
+      <label for="bio">Bio</label>
+      <textarea id="bio" required></textarea>
+    </div>
+
+    <div class="field">
+      <label>Photo</label>
+      <div class="upload-box">
+        <input type="file" id="photoInput" accept="image/*" required>
+        <div class="progress-track" id="photoProgressTrack"><div class="progress-fill" id="photoProgressFill"></div></div>
+        <p class="upload-status" id="photoStatus"></p>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Audition video</label>
+      <div class="upload-box">
+        <input type="file" id="videoInput" accept="video/*" required>
+        <div class="progress-track" id="videoProgressTrack"><div class="progress-fill" id="videoProgressFill"></div></div>
+        <p class="upload-status" id="videoStatus"></p>
+        <p class="hint">Max 75MB.</p>
+      </div>
+    </div>
+
+    <p class="error-text" id="formError" style="display:none;"></p>
+
+    <div class="submit-row">
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;" disabled>
+        Continue to payment — ₦5,000
+      </button>
+    </div>
+  </form>
+</main>
+
+<script src="../js/api.js"></script>
+<script src="../js/cloudinary.js"></script>
+<script src="../js/register.js"></script>
+</body>
+</html>
