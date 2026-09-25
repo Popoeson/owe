@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const performerSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   stageName: { type: String, required: true },
+  whatsappNumber: { type: String, required: true },
   bio: { type: String, required: true },
   photoUrl: { type: String, required: true },
   videoUrl: { type: String, default: null },
