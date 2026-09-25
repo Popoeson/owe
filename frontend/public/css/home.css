@@ -89,14 +89,21 @@
 .cta-banner p { color: rgba(255,255,255,0.75); margin: 0; font-size: 14px; }
 
 /* ---------- Footer ---------- */
-.footer-logo { height: 40px; width: auto; display: block; }
 .site-footer { background: var(--blue-ink); color: rgba(255,255,255,0.75); padding: 40px 24px 30px; }
-.footer-top { max-width: 1040px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
-.footer-brand { display: flex; align-items: center; gap: 8px; color: var(--white); font-family: 'Sora', sans-serif; font-weight: 800; font-size: 15px; }
-.footer-brand small { display: block; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 8px; color: var(--orange-soft); }
+
+.footer-top {
+  max-width: 1040px; margin: 0 auto 20px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+}
+
+.footer-logo { height: 40px; width: auto; display: block; }
+
 .footer-links { display: flex; gap: 18px; font-size: 13.5px; }
 .footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; }
-.footer-about, .footer-legal { max-width: 1040px; margin: 0 auto; font-size: 12.5px; color: var(--orange-soft); text-decoration: none;}
-.footer-about a { color: var(--orange-soft); }
+
+.footer-about, .footer-legal { max-width: 1040px; margin: 0 auto; font-size: 12.5px; }
+.footer-about { margin-bottom: 16px; }
+.footer-about a { color: var(--orange-soft); text-decoration: none; }
 .footer-about a i { margin-right: 5px; }
-.footer-legal { margin-top: 16px; opacity: 0.6; }
+
+.footer-legal { opacity: 0.6; }
