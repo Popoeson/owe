@@ -15,36 +15,45 @@
 .nav-links a.active { color: var(--white); font-weight: 700; }
 @media (min-width: 720px) { .nav-links { display: flex; align-items: center; } }
 
-
-/* ---------- Hero — light, centered, matches register.html ---------- */
-.hero { background: var(--paper); }
-.hero-grid {
-  max-width: 720px; margin: 0 auto; padding: 40px 24px 48px;
-  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 32px;
+/* ---------- Hero — back to brand blue, with ghost wordmark ---------- */
+.hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(165deg, var(--blue-deep) 0%, var(--blue-ink) 100%);
 }
-@media (min-width: 860px) { .hero-grid { padding: 56px 24px 64px; } }
+.hero::before {
+  content: "OKIZZ";
+  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+  font-family: 'Sora', sans-serif; font-weight: 800;
+  font-size: clamp(90px, 24vw, 170px);
+  color: rgba(255,255,255,0.06);
+  white-space: nowrap; pointer-events: none; z-index: 0;
+}
+.hero-grid {
+  position: relative; z-index: 1;
+  max-width: 720px; margin: 0 auto; padding: 48px 24px 56px;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px;
+}
 
-.kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: var(--blue-deep); margin: 0 0 14px; }
-.hero h1 { font-size: clamp(32px, 7vw, 48px); font-weight: 800; line-height: 1.1; margin: 0 0 6px; color: var(--text-body); }
+.kicker { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: var(--orange-soft); margin: 0 0 12px; }
+.hero h1 { font-size: clamp(30px, 7vw, 44px); font-weight: 800; line-height: 1.12; margin: 0 0 6px; color: var(--white); }
 .hero h1 span { color: var(--orange); }
-.hero-sub { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; letter-spacing: 0.05em; color: var(--text-muted); margin: 0 0 18px; }
-.hero-desc { color: var(--text-muted); max-width: 46ch; margin: 0 0 28px; }
-.hero-desc strong { color: var(--blue-deep); }
+.hero-tagline { color: rgba(255,255,255,0.85); font-size: 16px; margin: 0; }
 
-.cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 32px; }
-.hero .btn-ghost { background: var(--white); color: var(--blue-deep); border-color: var(--border); }
+.cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 4px 0; }
+.btn-secondary { background: var(--white); color: var(--blue-deep); }
+.btn-tertiary { background: rgba(255,255,255,0.12); color: var(--white); border: 1px solid rgba(255,255,255,0.25); }
+.btn-with-note { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.coming-soon { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.05em; color: rgba(255,255,255,0.5); }
 
-.countdown-card { background: var(--blue-deep); border-radius: 14px; padding: 18px 20px; max-width: 420px; width: 100%; }
-.countdown-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--orange-soft); margin: 0 0 12px; text-align: left; }
-.countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+.countdown-card { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 22px; max-width: 420px; width: 100%; }
+.countdown-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--orange-soft); margin: 0 0 14px; text-align: left; }
+.countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
 .countdown-grid div { background: var(--blue-ink); border-radius: 8px; padding: 10px 4px; text-align: center; }
 .countdown-grid span { display: block; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 19px; color: var(--white); }
 .countdown-grid small { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--orange-soft); letter-spacing: 0.06em; }
+.countdown-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 0 0 14px; }
 .countdown-meta { text-align: left; }
-.countdown-meta p { font-size: 12.5px; color: rgba(255,255,255,0.75); margin: 4px 0; }
-
-.hero-art img { width: 100%; height: auto; border-radius: var(--radius); display: block; }
-
+.countdown-meta p { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: rgba(255,255,255,0.75); margin: 6px 0; }
 
 /* ---------- Sections ---------- */
 .section { max-width: 1040px; margin: 0 auto; padding: 56px 24px; }
