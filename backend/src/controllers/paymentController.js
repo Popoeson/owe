@@ -7,10 +7,10 @@ const { confirmPayment } = require('../services/idempotency');
 // POST /api/register/initiate
 async function initiateRegistration(req, res, next) {
   try {
-    const { fullName, stageName, bio, photoUrl, email } = req.body;
-if (!fullName || !stageName || !bio || !photoUrl || !email) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+    const { fullName, stageName, bio, photoUrl, whatsappNumber, email } = req.body;
+if (!fullName || !stageName || !bio || !photoUrl || !whatsappNumber || !email) {
+  return res.status(400).json({ error: 'Missing required fields' });
+}
 
     const settings = await Settings.getSingleton();
     const reference = `okizz_reg_${crypto.randomBytes(8).toString('hex')}`;
@@ -21,7 +21,7 @@ if (!fullName || !stageName || !bio || !photoUrl || !email) {
       amount: settings.registrationFee, // never trust a client-supplied amount
       payerEmail: email,
       payerName: fullName,
-      registrationData: { fullName, stageName, bio, photoUrl}
+      registrationData: { fullName, stageName, bio, photoUrl, whatsappNumber}
     });
 
     const tx = await initializeTransaction({
