@@ -7,7 +7,7 @@ main.page { max-width: var(--maxw); margin: 0 auto; padding: 40px 24px 80px; }
 /* ---------- Register form ---------- */
 .field { margin-bottom: 20px; }
 .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
-.field input[type="text"], .field textarea, .field input[type="email"] {
+.field input[type="text"], .field input[type="tel"], .field textarea, .field input[type="email"] {
   width: 100%; font-family: 'Inter', sans-serif; font-size: 15px; padding: 11px 13px;
   border: 1.5px solid var(--border); border-radius: 10px; background: var(--white); color: var(--text-body);
 }
