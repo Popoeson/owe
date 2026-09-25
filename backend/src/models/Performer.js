@@ -5,7 +5,7 @@ const performerSchema = new mongoose.Schema({
   stageName: { type: String, required: true },
   bio: { type: String, required: true },
   photoUrl: { type: String, required: true },
-  videoUrl: { type: String, required: true },
+  videoUrl: { type: String, default: null },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   isActive: { type: Boolean, default: true },
   registrationPaymentRef: { type: String, default: null },
