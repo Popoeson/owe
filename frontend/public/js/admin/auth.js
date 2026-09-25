@@ -19,7 +19,7 @@ form.addEventListener('submit', async (e) => {
   submitBtn.textContent = 'Signing in…';
 
   try {
-    const res = await fetch(`${API_BASE}/admin/auth/login`, {
+    const res = await fetch(`${API_BASE}/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
