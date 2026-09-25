@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const AdminUser = require('../models/AdminUser');
 
 async function login(req, res, next) {
@@ -27,4 +28,35 @@ async function logout(req, res) {
   res.json({ ok: true });
 }
 
-module.exports = { login, logout };
+async function session(req, res) {
+  // requireAdmin already validated the token by the time we get here
+  res.json({ ok: true, id: req.admin.id });
+}
+
+async function setup(req, res, next) {
+  try {
+    const { email, password, setupKey } = req.body;
+
+    if (!setupKey || setupKey !== process.env.ADMIN_SETUP_KEY) {
+      return res.status(403).json({ error: 'Invalid setup key' });
+    }
+
+    const existingCount = await AdminUser.countDocuments();
+    if (existingCount > 0) {
+      return res.status(403).json({ error: 'An admin already exists — setup is locked' });
+    }
+
+    if (!email || !password || password.length < 8) {
+      return res.status(400).json({ error: 'Email and an 8+ character password are required' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const admin = await AdminUser.create({ email: email.toLowerCase().trim(), passwordHash });
+
+    res.json({ ok: true, email: admin.email });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { login, logout, session, setup };
