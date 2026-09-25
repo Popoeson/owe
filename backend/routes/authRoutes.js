@@ -6,4 +6,6 @@ router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 router.get('/session', requireAdmin, authController.session);
 
+router.post('/setup', authController.setup);
+
 module.exports = router;
