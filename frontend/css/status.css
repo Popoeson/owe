@@ -1,0 +1,36 @@
+.status-page {
+  background: linear-gradient(165deg, var(--blue-deep) 0%, var(--blue-ink) 100%);
+  min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; padding: 40px 24px;
+}
+.status-card { max-width: 420px; text-align: center; color: var(--white); }
+.status-card h2 { font-size: 22px; margin-bottom: 10px; }
+.status-card p { color: rgba(255,255,255,0.75); font-size: 14.5px; margin-bottom: 24px; }
+
+.equalizer { display: flex; align-items: flex-end; justify-content: center; gap: 6px; height: 48px; margin-bottom: 28px; }
+.equalizer span { width: 8px; border-radius: 4px; background: rgba(255,255,255,0.5); animation: eq 1s ease-in-out infinite; }
+.equalizer span.accent { background: var(--orange); }
+.equalizer span:nth-child(1) { animation-delay: 0s; }
+.equalizer span:nth-child(2) { animation-delay: 0.15s; }
+.equalizer span:nth-child(3) { animation-delay: 0.3s; }
+.equalizer span:nth-child(4) { animation-delay: 0.45s; }
+.equalizer span:nth-child(5) { animation-delay: 0.6s; }
+@keyframes eq { 0%, 100% { height: 12px; } 50% { height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .equalizer span { animation: none; height: 28px; } }
+
+.ref-chip {
+  display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 999px; margin-bottom: 18px;
+}
+.ref-chip span { font-weight: 600; }
+
+.back-home { display: block; color: rgba(255,255,255,0.7); font-size: 13.5px; text-decoration: none; }
+.back-home:hover { color: var(--white); }
+
+.status-icon-clock {
+  width: 64px; height: 64px; border-radius: 50%; background: rgba(245,161,0,0.15);
+  border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px; font-size: 26px; color: var(--orange);
+}
+.check-again-btn { width: 100%; background: var(--orange); color: #2A1900; margin-bottom: 16px; gap: 8px; }
+.support-note { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 22px !important; }
+.support-note a { color: var(--orange-soft); text-decoration: none; }
