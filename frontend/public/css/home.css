@@ -2,7 +2,7 @@
 .navbar {
   display: flex; align-items: center; justify-content: space-between;
   padding: 6px 20px;
-  background: rgba(16, 11, 174, 0.55);
+  background: rgba(11, 8, 112, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   position: sticky; top: 0; z-index: 10;
