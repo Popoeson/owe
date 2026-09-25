@@ -9,7 +9,7 @@
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .nav-brand { display: flex; align-items: center; }
-.nav-logo { height: 46px; width: auto; display: block; }
+.nav-logo { height: 59px; width: auto; display: block; }
 .nav-links { display: none; gap: 20px; font-size: 14px; font-weight: 500; }
 .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; }
 .nav-links a.active { color: var(--white); font-weight: 700; }
