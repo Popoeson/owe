@@ -5,14 +5,34 @@ function setUploadStatus(el, text, cls) {
   el.className = 'upload-status' + (cls ? ` ${cls}` : '');
 }
 
-function checkFormReady() {
-  document.getElementById('submitBtn').disabled = !photoUrl;
+function updateEntryProgress() {
+  const detailsOk = !!(
+    document.getElementById('fullName').value.trim() &&
+    document.getElementById('stageName').value.trim() &&
+    document.getElementById('email').value.trim() &&
+    document.getElementById('whatsappNumber').value.trim()
+  );
+  const bioOk = document.getElementById('bio').value.trim().length > 0;
+  const photoOk = !!photoUrl;
+
+  document.getElementById('check-details').classList.toggle('done', detailsOk);
+  document.getElementById('check-bio').classList.toggle('done', bioOk);
+  document.getElementById('check-photo').classList.toggle('done', photoOk);
+
+  const doneCount = [detailsOk, bioOk, photoOk].filter(Boolean).length;
+  document.getElementById('entryReady').textContent = `${doneCount}/3 ready`;
+  document.getElementById('entryProgressFill').style.width = `${(doneCount / 3) * 100}%`;
+  document.getElementById('submitBtn').disabled = doneCount < 3;
 }
+
+['fullName', 'stageName', 'email', 'whatsappNumber', 'bio'].forEach((id) => {
+  document.getElementById(id).addEventListener('input', updateEntryProgress);
+});
 
 document.getElementById('photoInput').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
-  photoUrl = null; checkFormReady();
+  photoUrl = null; updateEntryProgress();
 
   const track = document.getElementById('photoProgressTrack');
   const fill = document.getElementById('photoProgressFill');
@@ -26,7 +46,7 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
   } catch (err) {
     setUploadStatus(status, err.message, 'fail');
   }
-  checkFormReady();
+  updateEntryProgress();
 });
 
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
@@ -36,7 +56,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
   const submitBtn = document.getElementById('submitBtn');
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Starting payment…';
+  submitBtn.innerHTML = 'Starting payment…';
 
   try {
     const { authorizationUrl } = await apiPost('/register/initiate', {
@@ -52,6 +72,6 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     errorEl.textContent = err.message;
     errorEl.style.display = 'block';
     submitBtn.disabled = false;
-    submitBtn.textContent = 'Continue to payment — ₦5,000';
+    submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> Pay ₦5,000 to submit';
   }
 });
