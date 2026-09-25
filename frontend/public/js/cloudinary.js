@@ -1,4 +1,4 @@
-const CLOUDINARY_CLOUD_NAME = 'YOUR_CLOUD_NAME';
+const CLOUDINARY_CLOUD_NAME = 'contesto';
 const CLOUDINARY_UPLOAD_PRESET = 'okizz_unsigned'; // create this unsigned preset in Cloudinary dashboard
 const MAX_VIDEO_BYTES = 75 * 1024 * 1024; // 75MB, per BR-20
 
