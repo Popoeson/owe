@@ -1,5 +1,4 @@
 let photoUrl = null;
-let videoUrl = null;
 
 function setUploadStatus(el, text, cls) {
   el.textContent = text;
@@ -7,7 +6,7 @@ function setUploadStatus(el, text, cls) {
 }
 
 function checkFormReady() {
-  document.getElementById('submitBtn').disabled = !(photoUrl && videoUrl);
+  document.getElementById('submitBtn').disabled = !photoUrl;
 }
 
 document.getElementById('photoInput').addEventListener('change', async (e) => {
@@ -22,35 +21,8 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
   setUploadStatus(status, 'Uploading…');
 
   try {
-    photoUrl = await uploadToCloudinary(file, { onProgress: (p) => fill.style.width = `${p}%` });
+    photoUrl = await uploadToCloudinary(file, 'image', { onProgress: (p) => fill.style.width = `${p}%` });
     setUploadStatus(status, 'Photo uploaded', 'done');
-  } catch (err) {
-    setUploadStatus(status, err.message, 'fail');
-  }
-  checkFormReady();
-});
-
-document.getElementById('videoInput').addEventListener('change', async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  videoUrl = null; checkFormReady();
-
-  const status = document.getElementById('videoStatus');
-
-  if (file.size > MAX_VIDEO_BYTES) {
-    setUploadStatus(status, 'Video is over 75MB — please choose a smaller file', 'fail');
-    e.target.value = '';
-    return;
-  }
-
-  const track = document.getElementById('videoProgressTrack');
-  const fill = document.getElementById('videoProgressFill');
-  track.style.display = 'block';
-  setUploadStatus(status, 'Uploading…');
-
-  try {
-    videoUrl = await uploadToCloudinary(file, { onProgress: (p) => fill.style.width = `${p}%` });
-    setUploadStatus(status, 'Video uploaded', 'done');
   } catch (err) {
     setUploadStatus(status, err.message, 'fail');
   }
@@ -72,10 +44,9 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
       stageName: document.getElementById('stageName').value,
       email: document.getElementById('email').value,
       bio: document.getElementById('bio').value,
-      photoUrl,
-      videoUrl
+      photoUrl
     });
-    window.location.href = authorizationUrl; // off to Paystack's hosted checkout
+    window.location.href = authorizationUrl;
   } catch (err) {
     errorEl.textContent = err.message;
     errorEl.style.display = 'block';
