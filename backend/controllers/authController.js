@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const AdminUser = require('../models/AdminUser');
+const bcrypt = require('bcryptjs');
 
 const COOKIE_NAME = 'okizz_admin_session';
 const isProd = process.env.NODE_ENV === 'production';
