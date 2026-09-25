@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const requireAdmin = require('../middleware/requireAdmin');
-const { login, logout } = require('../controllers/authController');
+const { login, logout, setup, session } = require('../controllers/authController');
 const { getStats } = require('../controllers/dashboardController');
 const performers = require('../controllers/performerAdminController');
 
 router.post('/login', login);
 router.post('/logout', logout);
+router.post('/setup', setup);
+router.get('/session', requireAdmin, session);
 
 router.get('/dashboard', requireAdmin, getStats);
 
