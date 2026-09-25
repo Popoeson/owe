@@ -15,18 +15,14 @@
 .nav-links a.active { color: var(--white); font-weight: 700; }
 @media (min-width: 720px) { .nav-links { display: flex; align-items: center; } }
 
-/* ---------- Hero — back to brand blue, with ghost wordmark ---------- */
+/* ---------- Hero — background image with readability overlay ---------- */
 .hero {
   position: relative; overflow: hidden;
-  background: linear-gradient(165deg, var(--blue-deep) 0%, var(--blue-ink) 100%);
-}
-.hero::before {
-  content: "OKIZZ";
-  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-  font-family: 'Sora', sans-serif; font-weight: 800;
-  font-size: clamp(90px, 24vw, 170px);
-  color: rgba(255,255,255,0.06);
-  white-space: nowrap; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(165deg, rgba(16,11,174,0.88) 0%, rgba(11,8,112,0.92) 100%),
+    url('../images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
 }
 .hero-grid {
   position: relative; z-index: 1;
@@ -54,6 +50,24 @@
 .countdown-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 0 0 14px; }
 .countdown-meta { text-align: left; }
 .countdown-meta p { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: rgba(255,255,255,0.75); margin: 6px 0; }
+
+/* ---------- Open Mic banner + flyer ---------- */
+.openmic-banner {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--blue-deep); color: var(--white);
+  padding: 10px 20px; border-radius: 999px; margin-bottom: 20px;
+}
+.openmic-banner i { color: var(--orange); font-size: 15px; }
+.openmic-banner span {
+  font-family: 'Sora', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.01em;
+}
+
+.flyer-display { margin: 26px 0; text-align: center; }
+.flyer-display img {
+  max-width: 100%; width: 100%; max-width: 380px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(16,11,174,0.12);
+}
 
 /* ---------- Sections ---------- */
 .section { max-width: 1040px; margin: 0 auto; padding: 56px 24px; }
