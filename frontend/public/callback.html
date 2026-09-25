@@ -4,18 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Confirming payment — OKIZZ Entertainment</title>
-<link rel="stylesheet" href="../css/tokens.css">
-<link rel="stylesheet" href="../css/public.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/public.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/status.css">
 </head>
 <body>
 
-<div class="status-card" id="statusCard">
-  <div class="spinner"></div>
-  <h2>Checking your payment…</h2>
-  <p>This usually takes a few seconds.</p>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="images/okizz_logo.png" alt="OKIZZ Entertainment" class="nav-logo">
+  </a>
+</nav>
+
+<div class="status-page">
+  <div class="status-card" id="statusCard"></div>
 </div>
 
-<script src="../js/api.js"></script>
-<script src="../js/callback.js"></script>
+<script src="js/api.js"></script>
+<script src="js/callback.js"></script>
 </body>
 </html>
