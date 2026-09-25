@@ -21,57 +21,85 @@
   </div>
 </nav>
 
-<main class="page">
-  <h1>Register to audition</h1>
-  <p style="color:var(--text-muted); margin: 8px 0 28px;">Fill in your details, upload a photo, then pay the ₦5,000 audition fee to submit.</p>
+<header class="hero hero-compact">
+  <div class="hero-compact-inner">
+    <p class="kicker">AUDITIONS · FIESTA OPEN MIC</p>
+    <h1>Audition for <span>Fiesta Open Mic</span></h1>
+    <p class="hero-tagline">Tell us who you are. Every entry is reviewed by the OKIZZ team before it goes on the Stat Board.</p>
+  </div>
+</header>
 
-  <form id="registerForm">
-    <div class="field">
-      <label for="fullName">Full name</label>
-      <input type="text" id="fullName" required>
-      <p class="hint">Private — used for admin records only.</p>
-    </div>
+<main class="page-narrow">
 
-    <div class="field">
-      <label for="stageName">Stage name</label>
-      <input type="text" id="stageName" required>
-      <p class="hint">This is what appears publicly on the stat board.</p>
-    </div>
-
-    <div class="field">
-      <label for="email">Email</label>
-      <input type="email" id="email" required>
-      <p class="hint">Used for your payment receipt and to reach you.</p>
-    </div>
-
-    <div class="field">
-      <label for="whatsappNumber">Phone number</label>
-      <input type="tel" id="whatsappNumber" required placeholder="0803 000 0000">
-      <p class="hint">WhatsApp number preferred — this is how our team will reach out to you.</p>
-    </div>
-
-    <div class="field">
-      <label for="bio">Bio</label>
-      <textarea id="bio" required></textarea>
-    </div>
-
-    <div class="field">
-      <label>Photo</label>
-      <div class="upload-box">
-        <input type="file" id="photoInput" accept="image/*" required>
-        <div class="progress-track" id="photoProgressTrack"><div class="progress-fill" id="photoProgressFill"></div></div>
-        <p class="upload-status" id="photoStatus"></p>
+  <div class="card form-card">
+    <h2>About you</h2>
+    <form id="registerForm">
+      <div class="field">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" placeholder="e.g. Adaeze Umeh" required>
+        <p class="hint">Private — only our team sees this.</p>
       </div>
+
+      <div class="field">
+        <label for="stageName">Stage name <span class="badge-shown">Shown publicly</span></label>
+        <input type="text" id="stageName" placeholder="e.g. Ada Soul" required>
+        <p class="hint">This is how you'll appear on the Stat Board.</p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+        <p class="hint">Used for your payment receipt and to reach you.</p>
+      </div>
+
+      <div class="field">
+        <label for="whatsappNumber">Phone</label>
+        <input type="tel" id="whatsappNumber" required placeholder="0803 000 0000">
+        <p class="hint">WhatsApp number preferred — this is how our team will reach out to you.</p>
+      </div>
+
+      <div class="field">
+        <label for="bio">Short bio</label>
+        <textarea id="bio" required></textarea>
+      </div>
+
+      <div class="field">
+        <label>Photo</label>
+        <div class="upload-box">
+          <input type="file" id="photoInput" accept="image/*" required>
+          <div class="progress-track" id="photoProgressTrack"><div class="progress-fill" id="photoProgressFill"></div></div>
+          <p class="upload-status" id="photoStatus"></p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="card entry-panel">
+    <div class="entry-panel-head">
+      <h2>Your entry</h2>
+      <span class="entry-ready" id="entryReady">0/3 ready</span>
+    </div>
+    <div class="entry-progress-track"><div class="entry-progress-fill" id="entryProgressFill"></div></div>
+
+    <ul class="entry-checklist">
+      <li><span class="check-dot" id="check-details"></span> Your details</li>
+      <li><span class="check-dot" id="check-bio"></span> Short bio</li>
+      <li><span class="check-dot" id="check-photo"></span> Photo</li>
+    </ul>
+
+    <div class="entry-fee-row">
+      <span>Audition fee</span>
+      <strong>₦5,000</strong>
     </div>
 
-    <p class="error-text" id="formError" style="display:none;"></p>
+    <p class="error-text" id="formError" style="display:none; color:#FFD98C;"></p>
 
-    <div class="submit-row">
-      <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;" disabled>
-        Continue to payment — ₦5,000
-      </button>
-    </div>
-  </form>
+    <button type="submit" form="registerForm" class="btn entry-pay-btn" id="submitBtn" disabled>
+      <i class="fa-solid fa-lock"></i> Pay ₦5,000 to submit
+    </button>
+    <p class="entry-note">Secure checkout. The fee covers review of your entry and isn't refundable if your audition isn't approved.</p>
+  </div>
+
 </main>
 
 <script src="js/api.js"></script>
