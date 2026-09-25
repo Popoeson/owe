@@ -20,6 +20,21 @@
   margin-bottom: 18px;
 }
 
+.admin-auth-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.admin-auth-logo-img {
+  display: block;
+  margin: 0 auto 18px;
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
 .admin-auth-main { width: 100%; max-width: var(--maxw); padding: 0 24px; flex: 1; }
 .admin-auth-card { padding: 28px 26px 30px; }
 .admin-auth-card h2 { font-size: 22px; margin-bottom: 6px; }
