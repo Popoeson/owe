@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Setup — OKIZZ Entertainment</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-auth-body">
+<main class="admin-auth-main" style="padding-top:60px;">
+  <div class="card admin-auth-card">
+    <h2>One-time admin setup</h2>
+    <p class="admin-auth-sub">This only works if no admin exists yet.</p>
+    <form id="setupForm">
+      <div class="field">
+        <label for="setupKey">Setup key</label>
+        <input type="password" id="setupKey" required>
+      </div>
+      <div class="field">
+        <label for="email">Admin email</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Admin password</label>
+        <input type="password" id="password" required minlength="8">
+      </div>
+      <p class="error-text" id="setupError" style="display:none;"></p>
+      <p id="setupSuccess" style="display:none; color:var(--success); font-weight:600;"></p>
+      <button type="submit" class="btn btn-primary admin-auth-submit" id="submitBtn">Create admin</button>
+    </form>
+  </div>
+</main>
+<script src="../js/api.js"></script>
+<script>
+  document.getElementById('setupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errorEl = document.getElementById('setupError');
+    const successEl = document.getElementById('setupSuccess');
+    errorEl.style.display = 'none';
+    successEl.style.display = 'none';
+
+    try {
+      const res = await fetch(`${API_BASE}/admin/auth/setup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          setupKey: document.getElementById('setupKey').value,
+          email: document.getElementById('email').value.trim(),
+          password: document.getElementById('password').value
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Setup failed');
+      successEl.textContent = `Admin created: ${data.email}. You can now sign in.`;
+      successEl.style.display = 'block';
+      e.target.reset();
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
