@@ -21,7 +21,7 @@ if (!fullName || !stageName || !bio || !photoUrl || !email) {
       amount: settings.registrationFee, // never trust a client-supplied amount
       payerEmail: email,
       payerName: fullName,
-      registrationData: { fullName, stageName, bio, photoUrl, videoUrl }
+      registrationData: { fullName, stageName, bio, photoUrl}
     });
 
     const tx = await initializeTransaction({
