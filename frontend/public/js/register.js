@@ -43,6 +43,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
       fullName: document.getElementById('fullName').value,
       stageName: document.getElementById('stageName').value,
       email: document.getElementById('email').value,
+      whatsappNumber: document.getElementById('whatsappNumber').value,
       bio: document.getElementById('bio').value,
       photoUrl
     });
