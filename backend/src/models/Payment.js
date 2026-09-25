@@ -14,7 +14,8 @@ const paymentSchema = new mongoose.Schema({
     fullName: String,
     stageName: String,
     bio: String,
-    photoUrl: String
+    photoUrl: String,
+    whatsappNumber: String
   },
   confirmedAt: { type: Date, default: null }
 }, { timestamps: true });
