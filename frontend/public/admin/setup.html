@@ -41,7 +41,7 @@
     successEl.style.display = 'none';
 
     try {
-      const res = await fetch(`${API_BASE}/admin/auth/setup`, {
+      const res = await fetch(`${API_BASE}/admin/setup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
