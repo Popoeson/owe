@@ -7,8 +7,8 @@ const { confirmPayment } = require('../services/idempotency');
 // POST /api/register/initiate
 async function initiateRegistration(req, res, next) {
   try {
-    const { fullName, stageName, bio, photoUrl, videoUrl, email } = req.body;
-    if (!fullName || !stageName || !bio || !photoUrl || !videoUrl || !email) {
+    const { fullName, stageName, bio, photoUrl, email } = req.body;
+if (!fullName || !stageName || !bio || !photoUrl || !email) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
