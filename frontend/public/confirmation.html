@@ -4,17 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Registration confirmed — OKIZZ Entertainment</title>
-<link rel="stylesheet" href="../css/tokens.css">
-<link rel="stylesheet" href="../css/public.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/public.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/confirmation.css">
 </head>
 <body>
 
-<div class="status-card">
-  <div class="badge-success">✓</div>
-  <h2>Registration successful</h2>
-  <p>Thanks for auditioning for OKIZZ. Our team will reach out to you soon — there's no live status to check in the meantime.</p>
-  <a href="index.html" class="btn btn-ghost">Back to home</a>
-</div>
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="images/okizz_logo.png" alt="OKIZZ Entertainment" class="nav-logo">
+  </a>
+</nav>
 
+<header class="confirm-hero">
+  <div class="badge-success"><i class="fa-solid fa-check"></i></div>
+  <h1 id="confirmHeading">You're registered!</h1>
+  <p>Your audition for Fiesta Open Mic has been received and your fee is paid.</p>
+</header>
+
+<main class="page-narrow">
+
+  <div class="card contact-note">
+    <i class="fa-regular fa-envelope"></i>
+    <div>
+      <strong>Our team will reach out to you soon</strong>
+      <p id="contactDetail">We'll reach out to you by email or on WhatsApp once your audition has been reviewed. Keep an eye on your inbox and phone.</p>
+    </div>
+  </div>
+
+  <div class="card receipt-card">
+    <div>
+      <span class="receipt-label">Amount paid</span>
+      <strong id="amountPaid">—</strong>
+    </div>
+    <div>
+      <span class="receipt-label">Reference</span>
+      <strong id="referenceValue" class="mono">—</strong>
+    </div>
+  </div>
+
+  <div class="confirm-actions">
+    <a href="index.html" class="btn btn-primary">Back to home</a>
+    <div class="btn-with-note">
+      <button class="btn btn-ghost" disabled>Get show tickets</button>
+      <span class="coming-soon">Coming soon</span>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/api.js"></script>
+<script src="js/confirmation.js"></script>
 </body>
 </html>
