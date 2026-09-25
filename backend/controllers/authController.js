@@ -46,3 +46,27 @@ exports.session = (req, res) => {
   // requireAdmin already validated the token by the time we get here
   res.json({ email: req.admin.email });
 };
+
+
+
+exports.setup = async (req, res) => {
+  const { email, password, setupKey } = req.body;
+
+  if (!setupKey || setupKey !== process.env.ADMIN_SETUP_KEY) {
+    return res.status(403).json({ error: 'Invalid setup key' });
+  }
+
+  const existingCount = await AdminUser.countDocuments();
+  if (existingCount > 0) {
+    return res.status(403).json({ error: 'An admin already exists — setup is locked' });
+  }
+
+  if (!email || !password || password.length < 8) {
+    return res.status(400).json({ error: 'Email and an 8+ character password are required' });
+  }
+
+  const passwordHash = await bcrypt.hash(password, 10);
+  const admin = await AdminUser.create({ email: email.toLowerCase().trim(), passwordHash });
+
+  res.json({ ok: true, email: admin.email });
+};
