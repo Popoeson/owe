@@ -98,4 +98,24 @@ async function manualVerify(req, res, next) {
   }
 }
 
-module.exports = { initiateRegistration, paystackWebhook, getPaymentStatus, manualVerify };
+// GET /api/payments/:reference — public-safe details for the confirmation page
+async function getPaymentDetails(req, res, next) {
+  try {
+    const payment = await Payment.findOne({ reference: req.params.reference });
+    if (!payment) return res.status(404).json({ error: 'Not found' });
+
+    res.json({
+      status: payment.status,
+      amount: payment.amount,
+      payerEmail: payment.payerEmail,
+      stageName: payment.registrationData?.stageName || null,
+      fullName: payment.registrationData?.fullName || null,
+      whatsappNumber: payment.registrationData?.whatsappNumber || null,
+      reference: payment.reference
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { initiateRegistration, paystackWebhook, getPaymentStatus, manualVerify, getPaymentDetails };
