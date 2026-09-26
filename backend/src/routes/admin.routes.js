@@ -5,7 +5,9 @@ const { login, logout, setup, session } = require('../controllers/authController
 const { getStats } = require('../controllers/dashboardController');
 const performers = require('../controllers/performerAdminController');
 const { listPayments } = require('../controllers/paymentAdminController');
+const { getSettings, updateSettings } = require('../controllers/settingsAdminController');
 
+router.get('/settings', requireAdmin, 
 router.post('/login', login);
 router.post('/logout', logout);
 router.post('/setup', setup);
@@ -21,6 +23,9 @@ router.patch('/performers/:id/deactivate', requireAdmin, performers.deactivatePe
 router.patch('/performers/:id/reactivate', requireAdmin, performers.reactivatePerformer);
 router.delete('/performers/:id', requireAdmin, performers.hardDeletePerformer);
 router.get('/payments', requireAdmin, listPayments);
+getSettings);
+router.patch('/settings', requireAdmin, updateSettings);
+
 
 
 module.exports = router;
