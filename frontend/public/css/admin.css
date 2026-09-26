@@ -171,7 +171,12 @@
 .admin-badge.source { background: #E4E1FB; color: #3C2FA0; }
 .admin-badge.deactivated { background: var(--border); color: var(--text-muted); }
 
-.admin-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 10px; margin-bottom: 16px; }
+.admin-detail-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.admin-detail-box {
+  border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px;
+}
+.admin-detail-box > div { font-size: 15px; margin-top: 3px; }
+
 .admin-detail-label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; letter-spacing: 0.03em; }
 .admin-detail-bio p { margin: 4px 0 0; font-size: 14.5px; }
 .admin-rejection-note { background: #FBEAEA; color: var(--error); border-radius: 10px; padding: 10px 14px; font-size: 13.5px; margin: 14px 0; }
