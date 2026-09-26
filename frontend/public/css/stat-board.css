@@ -51,7 +51,7 @@
 .sb-total-box { display: flex; justify-content: space-between; align-items: center; background: var(--paper); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 13.5px; color: var(--text-muted); }
 .sb-total-right { text-align: right; }
 .sb-total-label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; }
-.sb-total-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 22px; color: var(--text-body); }
+.sb-total-value { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 22px; color: var(--text-body); }
 
 .sb-pay-btn { width: 100%; background: var(--orange); color: #2A1900; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 15.5px; border: none; margin-top: 4px; }
 
