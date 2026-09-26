@@ -1,26 +1,42 @@
 const Performer = require('../models/Performer');
 const Payment = require('../models/Payment');
 const Settings = require('../models/Settings');
+const Vote = require('../models/Vote');
 
 async function getStats(req, res, next) {
   try {
-    const [pendingCount, approvedCount, registrationAgg, settings] = await Promise.all([
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const [pendingCount, approvedCount, registrationAgg, votingAgg, settings, totalVotesAgg, votesTodayAgg] = await Promise.all([
       Performer.countDocuments({ status: 'pending' }),
       Performer.countDocuments({ status: 'approved', isActive: true }),
       Payment.aggregate([
         { $match: { type: 'registration', status: 'confirmed' } },
         { $group: { _id: null, total: { $sum: '$amount' } } }
       ]),
-      Settings.getSingleton()
+      Payment.aggregate([
+        { $match: { type: 'vote', status: 'confirmed' } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      Settings.getSingleton(),
+      Vote.aggregate([
+        { $unwind: '$allocations' },
+        { $group: { _id: null, total: { $sum: '$allocations.quantity' } } }
+      ]),
+      Vote.aggregate([
+        { $match: { createdAt: { $gte: startOfToday } } },
+        { $unwind: '$allocations' },
+        { $group: { _id: null, total: { $sum: '$allocations.quantity' } } }
+      ])
     ]);
 
     const registrationRevenue = registrationAgg[0]?.total || 0;
+    const votingRevenue = votingAgg[0]?.total || 0;
+    const totalVotesCast = totalVotesAgg[0]?.total || 0;
+    const votesToday = votesTodayAgg[0]?.total || 0;
 
-    // Voting and Tickets aren't built yet — no Vote/Ticket collections exist,
-    // so these stay hardcoded at 0 rather than querying something that isn't there.
-    const votingRevenue = 0;
-    const totalVotesCast = 0;
-    const votesToday = 0;
+    // Tickets phase not built yet.
     const ticketRevenue = 0;
     const ticketsSold = 0;
 
