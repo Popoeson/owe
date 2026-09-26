@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/test-rewrite", "destination": "/index.html" },
+    { "source": "/api/:path*", "destination": "https://owe-bpsf.onrender.com/api/:path*" }
+  ]
+}
