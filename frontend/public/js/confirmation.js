@@ -31,6 +31,12 @@ function renderVote(data) {
     `We've added ${summary}. Check the Stat Board to see the standings update.`;
 }
 
+function setBackLink(href, label) {
+  const backBtn = document.querySelector('.confirm-actions .btn-primary');
+  backBtn.href = href;
+  backBtn.textContent = label;
+}
+
 async function loadConfirmation() {
   const params = new URLSearchParams(window.location.search);
   const reference = params.get('reference');
@@ -41,8 +47,10 @@ async function loadConfirmation() {
 
     if (data.type === 'vote') {
       renderVote(data);
+      setBackLink('stat-board.html', 'Back to Stat Board');
     } else {
-      renderRegistration(data); // default/fallback — matches prior behavior for registration
+      renderRegistration(data);
+      setBackLink('index.html', 'Back to home');
     }
 
     document.getElementById('amountPaid').textContent = formatNaira(data.amount);
