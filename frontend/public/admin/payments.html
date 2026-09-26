@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Payments — Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+<div id="adminNav"></div>
+
+<main class="admin-main admin-main-wide">
+  <h1 class="admin-page-title">Payments</h1>
+  <p class="admin-page-sub">Every registration, vote and ticket payment in one place.</p>
+
+  <input type="text" class="admin-search admin-search-full" id="searchInput" placeholder="Search reference, payer or email">
+
+  <div class="admin-payments-filters">
+    <div class="admin-tabs" id="typeTabs"></div>
+    <select class="admin-status-select" id="statusSelect">
+      <option value="all">All statuses</option>
+      <option value="initiated">Initiated</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="failed">Failed</option>
+    </select>
+  </div>
+
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Reference</th><th>Type</th><th>Payer</th><th>Details</th>
+          <th>Amount</th><th>Status</th><th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="paymentsTableBody"></tbody>
+    </table>
+  </div>
+
+  <p class="admin-table-footer" id="tableFooter"></p>
+</main>
+
+<script src="../js/api.js"></script>
+<script src="../js/admin/authGuard.js"></script>
+<script src="../js/admin/nav.js"></script>
+<script>renderAdminNav('payments');</script>
+<script src="../js/admin/payments.js"></script>
+</body>
+</html>
