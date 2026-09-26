@@ -19,22 +19,42 @@
   <h1 class="admin-page-title">Voting control</h1>
   <p class="admin-page-sub">One switch runs the whole voting phase.</p>
 
-<div class="admin-modal-backdrop" id="newSessionBackdrop" style="display:none;">
-  <div class="admin-modal">
-    <div class="admin-modal-head">
-      <h3>Start new session</h3>
-      <button class="admin-modal-close" id="closeNewSessionModal">&times;</button>
-    </div>
-    <p class="admin-page-sub" id="newSessionWarning" style="display:none;"></p>
-    <div class="field">
-      <label for="ns_name">Session name</label>
-      <input type="text" id="ns_name" placeholder="e.g. Round 1 — Live Semifinals" required>
-    </div>
-    <p class="admin-form-section-label" style="margin-top:14px;">SELECT PERFORMERS</p>
-    <div id="ns_performerList" class="admin-checklist"></div>
-    <p class="error-text" id="newSessionError" style="display:none;"></p>
-    <button class="btn btn-primary" id="createSessionBtn" style="width:100%; margin-top:14px;">Start session</button>
+<div class="admin-subtabs">
+  <button class="admin-subtab active" id="tabControl">Control</button>
+  <button class="admin-subtab" id="tabStatBoard">Stat board</button>
+  <button class="admin-subtab" id="tabHistory">Session history</button>
+</div>
+
+<div id="controlView">
+  <div class="admin-card admin-master-control" id="masterControlCard">
+    <span class="admin-card-label" style="color:rgba(255,255,255,0.6);">CURRENT SESSION</span>
+    <h2 id="sessionName">—</h2>
+    <p id="votingDesc"></p>
+    <div class="admin-session-actions" id="sessionActions"></div>
   </div>
+
+  <div class="admin-card admin-price-card">
+    <h3>Price per vote</h3>
+    <p class="admin-page-sub">Changes apply to new votes immediately. Past votes keep the price they were bought at.</p>
+    <div class="admin-price-input-wrap">
+      <span class="admin-naira-prefix">₦</span>
+      <input type="number" id="priceInput" min="1">
+    </div>
+    <button class="btn btn-primary" id="savePriceBtn" style="width:100%; margin-top:14px;">Save price</button>
+    <p class="admin-price-preview" id="pricePreview"></p>
+  </div>
+
+  <button class="btn btn-primary" id="newSessionBtn" style="width:100%; margin-top:10px;">
+    <i class="fa-solid fa-plus"></i> Start new session
+  </button>
+</div>
+
+<div id="statBoardView" style="display:none;">
+  <div id="statBoardList"></div>
+</div>
+
+<div id="historyView" style="display:none;">
+  <div id="historyList"></div>
 </div>
 
   <div id="controlView">
@@ -65,18 +85,23 @@
   </div>
 </main>
 
-<div class="admin-modal-backdrop" id="pauseModalBackdrop" style="display:none;">
+<div class="admin-modal-backdrop" id="newSessionBackdrop" style="display:none;">
   <div class="admin-modal">
     <div class="admin-modal-head">
-      <h3 id="pauseModalTitle"></h3>
-      <button class="admin-modal-close" id="closePauseModal">&times;</button>
+      <h3>Start new session</h3>
+      <button class="admin-modal-close" id="closeNewSessionModal">&times;</button>
     </div>
-    <p id="pauseModalBody"></p>
-    <div class="admin-modal-actions">
-      <button class="btn btn-ghost" id="cancelPauseBtn">Cancel</button>
-      <button class="btn admin-btn-danger" id="confirmPauseBtn"></button>
+    <p class="admin-page-sub" id="newSessionWarning" style="display:none;"></p>
+    <div class="field">
+      <label for="ns_name">Session name</label>
+      <input type="text" id="ns_name" placeholder="e.g. Round 1 — Live Semifinals" required>
     </div>
+    <p class="admin-form-section-label" style="margin-top:14px;">SELECT PERFORMERS</p>
+    <div id="ns_performerList" class="admin-checklist"></div>
+    <p class="error-text" id="newSessionError" style="display:none;"></p>
+    <button class="btn btn-primary" id="createSessionBtn" style="width:100%; margin-top:14px;">Start session</button>
   </div>
+</div>
 </div>
 
 
