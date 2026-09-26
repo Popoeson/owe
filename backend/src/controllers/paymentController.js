@@ -104,15 +104,45 @@ async function getPaymentDetails(req, res, next) {
     const payment = await Payment.findOne({ reference: req.params.reference });
     if (!payment) return res.status(404).json({ error: 'Not found' });
 
-    res.json({
+    const base = {
+      type: payment.type,
       status: payment.status,
       amount: payment.amount,
       payerEmail: payment.payerEmail,
-      stageName: payment.registrationData?.stageName || null,
-      fullName: payment.registrationData?.fullName || null,
-      whatsappNumber: payment.registrationData?.whatsappNumber || null,
       reference: payment.reference
-    });
+    };
+
+    if (payment.type === 'registration') {
+      return res.json({
+        ...base,
+        stageName: payment.registrationData?.stageName || null,
+        fullName: payment.registrationData?.fullName || null,
+        whatsappNumber: payment.registrationData?.whatsappNumber || null
+      });
+    }
+
+    if (payment.type === 'vote') {
+      // relatedId is only set once the webhook confirms (see idempotency.js) —
+      // stageName/quantity may be null if the fan lands here before confirmation.
+      let performerNames = [];
+      if (payment.voteData?.allocations?.length) {
+        const Performer = require('../models/Performer');
+        const performers = await Performer.find(
+          { _id: { $in: payment.voteData.allocations.map((a) => a.performerId) } },
+          'stageName'
+        );
+        const nameById = {};
+        performers.forEach((p) => { nameById[p._id.toString()] = p.stageName; });
+        performerNames = payment.voteData.allocations.map((a) => ({
+          stageName: nameById[a.performerId.toString()] || 'this performer',
+          quantity: a.quantity
+        }));
+      }
+      return res.json({ ...base, allocations: performerNames });
+    }
+
+    // ticket, or any future type — base fields only for now
+    res.json(base);
   } catch (err) {
     next(err);
   }
