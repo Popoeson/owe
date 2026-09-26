@@ -25,13 +25,35 @@
 
 <header class="sb-hero">
   <span class="sb-live-badge" id="liveBadge"><span class="sb-live-dot"></span> LIVE</span>
-  <h1>The Stat Board</h1>
-  <p class="sb-hero-sub">Every vote moves the rankings. Top performers take the stage on showdown night.</p>
+  <h1 id="sessionTitle">The Stat Board</h1>
+  <p class="sb-hero-sub" id="sessionSub">Every vote moves the rankings. Top performers take the stage on showdown night.</p>
   <div class="sb-hero-stats">
     <div><span class="sb-hero-label">TOTAL VOTES</span><span class="sb-hero-value" id="totalVotes">—</span></div>
     <div><span class="sb-hero-label">PER VOTE</span><span class="sb-hero-value" id="perVote">—</span></div>
   </div>
 </header>
+
+<main class="page-narrow">
+  <div class="sb-view-tabs">
+    <button class="sb-view-tab active" id="tabCurrent">Current session</button>
+    <button class="sb-view-tab" id="tabOlder">View older session results</button>
+  </div>
+
+  <div id="currentView">
+    <div class="sb-standings-head">
+      <h2>Standings</h2>
+      <p class="sb-standings-note">Arrows show live movement since you opened this page.</p>
+    </div>
+    <p class="sb-paused-note" id="pausedNote" style="display:none;">
+      <i class="fa-solid fa-circle-pause"></i> Voting is paused right now — standings are read-only.
+    </p>
+    <div id="standingsList"></div>
+  </div>
+
+  <div id="olderView" style="display:none;">
+    <div id="olderList"></div>
+  </div>
+</main>
 
 <main class="page-narrow">
   <div class="sb-standings-head">
