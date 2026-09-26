@@ -6,9 +6,14 @@ function renderAdminNav(activePage) {
 
   document.getElementById('adminNav').innerHTML = `
     <nav class="admin-nav">
-      <a href="dashboard.html" class="admin-nav-brand">
-        <img src="../images/okizz_ligo.png" alt="OKIZZ Entertainment" class="admin-nav-logo">
-      </a>
+      <div class="admin-nav-top">
+        <a href="dashboard.html">
+          <img src="../images/okizz_ligo.png" alt="OKIZZ Entertainment" class="admin-nav-logo">
+        </a>
+        <button class="admin-nav-logout" id="adminLogoutBtn" aria-label="Log out">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
       <div class="admin-nav-links">
         ${link('dashboard', 'fa-table-cells', 'Dashboard')}
         ${link('performers', 'fa-users', 'Performers')}
@@ -17,9 +22,6 @@ function renderAdminNav(activePage) {
         ${link('tickets', 'fa-ticket', 'Tickets &amp; scanner')}
         ${link('export', 'fa-download', 'Export')}
       </div>
-      <button class="admin-nav-logout" id="adminLogoutBtn" aria-label="Log out">
-        <i class="fa-solid fa-right-from-bracket"></i>
-      </button>
     </nav>`;
 
   document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
