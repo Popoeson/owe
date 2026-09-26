@@ -12,11 +12,11 @@ async function login(req, res, next) {
 
     const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.cookie('okizz_admin_token', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none', // frontend and backend are on different domains (Vercel/Render)
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+  httpOnly: true,
+  secure: true,
+  sameSite: 'lax', // was 'none' — no longer needed once same-origin via the Vercel rewrite
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
     res.json({ ok: true });
   } catch (err) {
     next(err);
