@@ -1,7 +1,7 @@
+
 const express = require('express');
 const router = express.Router();
 const { initiateRegistration, getPaymentStatus, manualVerify, getPaymentDetails } = require('../controllers/paymentController');
-const { getStatBoard, initiateVote } = require('../controllers/voteController');
 const { getStatBoard, initiateVote, listEndedSessions, getSessionDetail } = require('../controllers/voteController');
 
 router.post('/register/initiate', initiateRegistration);
