@@ -6,12 +6,18 @@ const paystack = axios.create({
 });
 
 async function initializeTransaction({ email, amountKobo, reference, callbackUrl }) {
-  const { data } = await paystack.post('/transaction/initialize', {
+  const payload = {
     email,
     amount: amountKobo,
     reference,
     callback_url: callbackUrl
-  });
+  };
+
+  if (process.env.PAYSTACK_SPLIT_CODE) {
+    payload.split_code = process.env.PAYSTACK_SPLIT_CODE;
+  }
+
+  const { data } = await paystack.post('/transaction/initialize', payload);
   return data.data; // { authorization_url, access_code, reference }
 }
 
