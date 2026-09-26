@@ -3,6 +3,8 @@ const Payment = require('../models/Payment');
 const Settings = require('../models/Settings');
 const Vote = require('../models/Vote');
 
+const activeSession = await Session.findOne({ status: 'active' });
+
 async function getStats(req, res, next) {
   try {
     const startOfToday = new Date();
@@ -49,8 +51,9 @@ async function getStats(req, res, next) {
         voting: votingRevenue,
         tickets: ticketRevenue
       },
+
       voting: {
-        isOpen: settings.votingOpen,
+        isOpen: !!activeSession && !activeSession.isPaused,
         pricePerVote: settings.votePrice,
         totalVotesCast,
         votesToday
