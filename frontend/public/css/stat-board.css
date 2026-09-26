@@ -55,4 +55,11 @@
 
 .sb-pay-btn { width: 100%; background: var(--orange); color: #2A1900; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 15.5px; border: none; margin-top: 4px; }
 
+.sb-view-tabs { display: flex; gap: 8px; margin: 24px 0 16px; }
+.sb-view-tab { background: var(--white); border: 1px solid var(--border); padding: 9px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; color: var(--text-muted); cursor: pointer; }
+.sb-view-tab.active { background: var(--blue-deep); color: var(--white); border-color: var(--blue-deep); }
+.sb-empty { color: var(--text-muted); text-align: center; padding: 30px 0; }
+.sb-older-session { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+.sb-older-session h3 { font-family: 'Sora', sans-serif; font-size: 17px; margin: 0 0 4px; }
+.sb-older-meta { font-size: 12.5px; color: var(--text-muted); margin: 0 0 12px; }
 
