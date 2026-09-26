@@ -167,9 +167,9 @@ function switchTab(tab) {
   document.getElementById('controlView').style.display = tab === 'control' ? 'block' : 'none';
   document.getElementById('statBoardView').style.display = tab === 'statboard' ? 'block' : 'none';
   document.getElementById('historyView').style.display = tab === 'history' ? 'block' : 'none';
-  ['tabControl', 'tabStatBoard', 'tabHistory'].forEach((id) =>
-    document.getElementById(id).classList.toggle('active', id === `tab${tab.charAt(0).toUpperCase() + tab.slice(1).replace('board', 'Board')}`)
-  );
+  document.getElementById('tabControl').classList.toggle('active', tab === 'control');
+  document.getElementById('tabStatBoard').classList.toggle('active', tab === 'statboard');
+  document.getElementById('tabHistory').classList.toggle('active', tab === 'history');
   if (tab === 'statboard') loadCurrentStanding();
   if (tab === 'history') loadHistory();
 }
