@@ -194,6 +194,9 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
       fullName: document.getElementById('ob_fullName').value,
       stageName: document.getElementById('ob_stageName').value,
       whatsappNumber: document.getElementById('ob_whatsappNumber').value,
+document.getElementById('ob_bio').addEventListener('input', (e) => {
+  document.getElementById('obBioCount').textContent = `${e.target.value.length}/400`;
+});
       bio: document.getElementById('ob_bio').value,
       photoUrl: uploadedPhotoUrl,
       status: document.getElementById('ob_status').value
