@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Performers — Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+<div id="adminNav"></div>
+
+<main class="admin-main">
+  <div class="admin-page-head-row">
+    <div>
+      <h1 class="admin-page-title">Performers</h1>
+      <p class="admin-page-sub">Review auditions, manage who appears on the Stat Board.</p>
+    </div>
+    <button class="btn btn-primary" id="onboardBtn"><i class="fa-solid fa-plus"></i> Onboard performer</button>
+  </div>
+
+  <div class="admin-tabs-row">
+    <div class="admin-tabs" id="statusTabs"></div>
+    <input type="text" class="admin-search" id="searchInput" placeholder="Search by name">
+  </div>
+
+  <div id="performerList" class="admin-performer-list"></div>
+</main>
+
+<div class="admin-modal-backdrop" id="onboardModalBackdrop" style="display:none;">
+  <div class="admin-modal">
+    <div class="admin-modal-head">
+      <h3>Onboard performer</h3>
+      <button class="admin-modal-close" id="closeOnboardModal">&times;</button>
+    </div>
+    <form id="onboardForm">
+      <div class="field"><label>Full name</label><input type="text" id="ob_fullName" required></div>
+      <div class="field"><label>Stage name</label><input type="text" id="ob_stageName" required></div>
+      <div class="field"><label>WhatsApp number</label><input type="tel" id="ob_whatsappNumber" required></div>
+      <div class="field"><label>Bio</label><textarea id="ob_bio" required></textarea></div>
+      <div class="field">
+        <label>Photo</label>
+        <input type="file" id="ob_photoInput" accept="image/*" required>
+        <p class="upload-status" id="ob_photoStatus"></p>
+      </div>
+      <div class="field">
+        <label>Initial status</label>
+        <select id="ob_status">
+          <option value="pending">Pending (goes to review queue)</option>
+          <option value="approved">Approved (shown on Stat Board immediately)</option>
+        </select>
+      </div>
+      <p class="error-text" id="onboardError" style="display:none;"></p>
+      <button type="submit" class="btn btn-primary" id="onboardSubmitBtn" style="width:100%;">Onboard performer</button>
+    </form>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/cloudinary.js"></script>
+<script src="../js/admin/authGuard.js"></script>
+<script src="../js/admin/nav.js"></script>
+<script>renderAdminNav('performers');</script>
+<script src="../js/admin/performers.js"></script>
+</body>
+</html>
