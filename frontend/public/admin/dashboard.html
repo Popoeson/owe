@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard — Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+<div id="adminNav"></div>
+
+<main class="admin-main">
+  <h1 class="admin-page-title">Dashboard</h1>
+  <p class="admin-page-sub">Live snapshot of the Showdown.</p>
+
+  <div class="admin-card admin-voting-banner">
+    <div class="admin-voting-top">
+      <span class="admin-voting-label">VOTING</span>
+      <span class="admin-status-badge" id="votingStatusBadge">—</span>
+    </div>
+    <h2 id="votingHeadline">—</h2>
+    <p class="admin-voting-sub" id="votingSub">—</p>
+    <a href="voting-control.html" class="admin-voting-link">Open voting control <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+
+  <div class="admin-card admin-revenue-card">
+    <span class="admin-card-label">TOTAL REVENUE</span>
+    <div class="admin-revenue-total" id="totalRevenue">—</div>
+    <div class="admin-revenue-bar">
+      <div class="admin-revenue-bar-seg reg" id="barRegistration"></div>
+      <div class="admin-revenue-bar-seg vote" id="barVoting"></div>
+      <div class="admin-revenue-bar-seg ticket" id="barTickets"></div>
+    </div>
+    <div class="admin-revenue-line"><span class="dot reg"></span> Registration revenue <b id="registrationRevenue">—</b></div>
+    <div class="admin-revenue-line"><span class="dot vote"></span> Voting revenue <b id="votingRevenue">—</b></div>
+    <div class="admin-revenue-line"><span class="dot ticket"></span> Tickets revenue <b id="ticketsRevenue">—</b></div>
+  </div>
+
+  <div class="admin-stat-grid">
+    <a href="performers.html" class="admin-stat-highlight">
+      <span class="admin-stat-label">Pending performers</span>
+      <span class="admin-stat-value" id="pendingCount">—</span>
+      <span class="admin-stat-link">Review now <i class="fa-solid fa-arrow-right"></i></span>
+    </a>
+    <div class="admin-stat">
+      <span class="admin-stat-label">Approved performers</span>
+      <span class="admin-stat-value" id="approvedCount">—</span>
+      <span class="admin-stat-note">On the Stat Board</span>
+    </div>
+    <div class="admin-stat">
+      <span class="admin-stat-label">Total votes cast</span>
+      <span class="admin-stat-value" id="votesCastCount">—</span>
+      <span class="admin-stat-note admin-stat-note-positive" id="votesTodayNote">—</span>
+    </div>
+    <div class="admin-stat">
+      <span class="admin-stat-label">Tickets sold</span>
+      <span class="admin-stat-value" id="ticketsSoldCount">—</span>
+      <span class="admin-stat-note" id="ticketsCapacityNote">—</span>
+    </div>
+  </div>
+</main>
+
+<script src="../js/api.js"></script>
+<script src="../js/admin/authGuard.js"></script>
+<script src="../js/admin/nav.js"></script>
+<script>renderAdminNav('dashboard');</script>
+<script src="../js/admin/dashboard.js"></script>
+</body>
+</html>
