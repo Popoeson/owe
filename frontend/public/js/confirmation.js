@@ -2,6 +2,35 @@ function formatNaira(kobo) {
   return `₦${(kobo / 100).toLocaleString('en-NG')}`;
 }
 
+function renderRegistration(data) {
+  const name = data.stageName || data.fullName || '';
+  document.getElementById('confirmHeading').textContent = name
+    ? `You're registered, ${name}!`
+    : "You're registered!";
+  document.querySelector('.confirm-hero p').textContent =
+    'Your audition for Fiesta Open Mic has been received and your fee is paid.';
+
+  const emailPart = data.payerEmail ? ` (${data.payerEmail})` : '';
+  const phonePart = data.whatsappNumber ? ` (${data.whatsappNumber})` : '';
+  document.querySelector('.contact-note strong').textContent = 'Our team will reach out to you soon';
+  document.getElementById('contactDetail').textContent =
+    `We'll reach out to you by email${emailPart} or on WhatsApp${phonePart} once your audition has been reviewed.`;
+}
+
+function renderVote(data) {
+  const summary = data.allocations.length
+    ? data.allocations.map((a) => `${a.quantity.toLocaleString()} votes for ${a.stageName}`).join(', ')
+    : 'your votes';
+
+  document.getElementById('confirmHeading').textContent = "Your votes are in!";
+  document.querySelector('.confirm-hero p').textContent =
+    `Thanks for backing your favorite${data.allocations.length > 1 ? 's' : ''} — every vote moves the rankings.`;
+
+  document.querySelector('.contact-note strong').textContent = 'Vote recorded';
+  document.getElementById('contactDetail').textContent =
+    `We've added ${summary}. Check the Stat Board to see the standings update.`;
+}
+
 async function loadConfirmation() {
   const params = new URLSearchParams(window.location.search);
   const reference = params.get('reference');
@@ -10,15 +39,11 @@ async function loadConfirmation() {
   try {
     const data = await apiGet(`/payments/${reference}`);
 
-    const name = data.stageName || data.fullName || '';
-    document.getElementById('confirmHeading').textContent = name
-      ? `You're registered, ${name}!`
-      : "You're registered!";
-
-    const emailPart = data.payerEmail ? ` (${data.payerEmail})` : '';
-    const phonePart = data.whatsappNumber ? ` (${data.whatsappNumber})` : '';
-    document.getElementById('contactDetail').textContent =
-      `We'll reach out to you by email${emailPart} or on WhatsApp${phonePart} once your audition has been reviewed.`;
+    if (data.type === 'vote') {
+      renderVote(data);
+    } else {
+      renderRegistration(data); // default/fallback — matches prior behavior for registration
+    }
 
     document.getElementById('amountPaid').textContent = formatNaira(data.amount);
     document.getElementById('referenceValue').textContent = data.reference;
