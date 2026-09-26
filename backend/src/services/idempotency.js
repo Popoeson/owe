@@ -1,5 +1,6 @@
 const Payment = require('../models/Payment');
 const Performer = require('../models/Performer');
+const Vote = require('../models/Vote');
 
 /**
  * Confirms a payment exactly once, no matter how many times or from how many
@@ -32,7 +33,26 @@ async function confirmPayment(reference) {
     await payment.save();
   }
 
-  // (vote / ticket confirmation logic slots in here in later phases)
+// ...inside confirmPayment(), replacing the comment line:
+
+  if (payment.type === 'vote') {
+    const vote = await Vote.create({
+      paymentRef: payment.reference,
+      voterEmail: payment.voteData.voterEmail,
+      allocations: payment.voteData.allocations,
+      totalAmount: payment.amount
+    });
+
+    // The only place vote counts are written (per the data model doc).
+    await Promise.all(
+      payment.voteData.allocations.map((a) =>
+        Performer.findByIdAndUpdate(a.performerId, { $inc: { voteCount: a.quantity } })
+      )
+    );
+
+    payment.relatedId = vote._id;
+    await payment.save();
+  }
 
   return { alreadyHandled: false, payment };
 }
