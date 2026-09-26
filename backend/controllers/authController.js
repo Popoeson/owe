@@ -25,11 +25,12 @@ exports.login = async (req, res) => {
 
   // No maxAge/expires set -> browser-session cookie, matches
   // "Sessions end when you close this tab." JWT itself still expires in 8h server-side.
-  res.cookie(COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? 'none' : 'lax'
-  });
+  res.cookie('COOKIE_NAME', token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'lax', // was 'none' — no longer needed once same-origin via the Vercel rewrite
+  maxAge: 7 * 24 * 60 * 60 * 1000
+});
 
   res.json({ email: admin.email });
 };
