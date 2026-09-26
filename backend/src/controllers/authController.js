@@ -24,7 +24,11 @@ async function login(req, res, next) {
 }
 
 async function logout(req, res) {
-  res.clearCookie('okizz_admin_token');
+  res.clearCookie('okizz_admin_token', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax'
+  });
   res.json({ ok: true });
 }
 
