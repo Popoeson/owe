@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stat Board — OKIZZ Entertainment</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/public.css">
+<link rel="stylesheet" href="css/stat-board.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="images/okizz_ligo.png" alt="OKIZZ Entertainment" class="nav-logo">
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="stat-board.html" class="active">Stat Board</a>
+  </div>
+</nav>
+
+<header class="sb-hero">
+  <span class="sb-live-badge" id="liveBadge"><span class="sb-live-dot"></span> LIVE</span>
+  <h1>The Stat Board</h1>
+  <p class="sb-hero-sub">Every vote moves the rankings. Top performers take the stage on showdown night.</p>
+  <div class="sb-hero-stats">
+    <div><span class="sb-hero-label">TOTAL VOTES</span><span class="sb-hero-value" id="totalVotes">—</span></div>
+    <div><span class="sb-hero-label">PER VOTE</span><span class="sb-hero-value" id="perVote">—</span></div>
+  </div>
+</header>
+
+<main class="page-narrow">
+  <div class="sb-standings-head">
+    <h2>Standings</h2>
+    <p class="sb-standings-note">Arrows show live movement since you opened this page.</p>
+  </div>
+
+  <p class="sb-paused-note" id="pausedNote" style="display:none;">
+    <i class="fa-solid fa-circle-pause"></i> Voting is paused right now — standings are read-only.
+  </p>
+
+  <div id="standingsList"></div>
+</main>
+
+<div class="sb-modal-backdrop" id="voteModalBackdrop" style="display:none;">
+  <div class="sb-modal">
+    <div class="sb-modal-head">
+      <h3>Cast your votes</h3>
+      <button class="sb-modal-close" id="closeVoteModal">&times;</button>
+    </div>
+    <p class="sb-modal-price" id="modalPricePerVote"></p>
+
+    <div class="sb-modal-performer" id="modalPerformerCard"></div>
+
+    <p class="sb-field-label">How many votes?</p>
+    <div class="sb-qty-quick" id="qtyQuick">
+      ${''}
+    </div>
+    <div class="sb-qty-stepper">
+      <button type="button" id="qtyMinus">−</button>
+      <span id="qtyValue">10</span>
+      <button type="button" id="qtyPlus">+</button>
+    </div>
+
+    <div class="sb-total-box">
+      <span id="qtyBreakdown"></span>
+      <div class="sb-total-right">
+        <span class="sb-total-label">TOTAL</span>
+        <span class="sb-total-value" id="totalAmount">—</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="voterEmail">Email for receipt</label>
+      <input type="email" id="voterEmail" placeholder="you@example.com" required>
+    </div>
+
+    <p class="error-text" id="voteError" style="display:none;"></p>
+
+    <button class="btn sb-pay-btn" id="payBtn"><i class="fa-solid fa-lock"></i> <span id="payBtnLabel">Pay</span></button>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/stat-board.js"></script>
+</body>
+</html>
