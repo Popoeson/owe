@@ -1,6 +1,8 @@
 const Payment = require('../models/Payment');
 const Performer = require('../models/Performer');
 const Vote = require('../models/Vote');
+const Session = require('../models/Session');
+
 
 /**
  * Confirms a payment exactly once, no matter how many times or from how many
@@ -33,28 +35,33 @@ async function confirmPayment(reference) {
     await payment.save();
   }
 
-// ...inside confirmPayment(), replacing the comment line:
-
+// ...replacing the existing vote branch:
   if (payment.type === 'vote') {
+    const { sessionId, allocations, voterEmail } = payment.voteData;
+
     const vote = await Vote.create({
       paymentRef: payment.reference,
-      voterEmail: payment.voteData.voterEmail,
-      allocations: payment.voteData.allocations,
+      sessionId,
+      voterEmail,
+      allocations,
       totalAmount: payment.amount
     });
 
-    // The only place vote counts are written (per the data model doc).
-    await Promise.all(
-      payment.voteData.allocations.map((a) =>
+    await Promise.all(allocations.map((a) =>
+      Promise.all([
+        // Session-scoped count — this is what ranking/standings actually reads.
+        Session.updateOne(
+          { _id: sessionId, 'performers.performerId': a.performerId },
+          { $inc: { 'performers.$.voteCount': a.quantity } }
+        ),
+        // All-time counter on Performer — kept for historical/legacy purposes, not used for ranking.
         Performer.findByIdAndUpdate(a.performerId, { $inc: { voteCount: a.quantity } })
-      )
-    );
+      ])
+    ));
 
     payment.relatedId = vote._id;
     await payment.save();
   }
-
-  return { alreadyHandled: false, payment };
-}
+  
 
 module.exports = { confirmPayment };
