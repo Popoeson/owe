@@ -14,10 +14,6 @@ let uploadedPhotoUrl = null;
 function fmtDate(iso) {
   return new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
-function maskEmail(email) {
-  if (!email) return '—';
-  return email.length > 18 ? email.slice(0, 15) + '...' : email;
-}
 
 async function loadPerformers() {
   const params = new URLSearchParams();
@@ -101,8 +97,8 @@ function renderDetail(p) {
         <div><span class="admin-detail-label">FULL NAME</span><div>${p.fullName}</div></div>
         <div><span class="admin-detail-label">STAGE NAME</span><div>${p.stageName}</div></div>
         <div><span class="admin-detail-label">VOTES</span><div>${p.voteCount.toLocaleString()}</div></div>
-        <<div><span class="admin-detail-label">PAYMENT REF</span><div class="admin-detail-wrap">${p.registrationPaymentRef || '—'}</div></div>
-       <div><span class="admin-detail-label">EMAIL</span><div class="admin-detail-wrap">${p.email || '—'}</div></div>
+        <div><span class="admin-detail-label">PAYMENT REF</span><div class="admin-detail-wrap">${p.registrationPaymentRef || '—'}</div></div>
+        <div><span class="admin-detail-label">EMAIL</span><div class="admin-detail-wrap">${p.email || '—'}</div></div>
         <div><span class="admin-detail-label">PHONE</span><div>${p.whatsappNumber}</div></div>
         <div><span class="admin-detail-label">SUBMITTED</span><div>${fmtDate(p.createdAt)}</div></div>
       </div>
@@ -169,11 +165,15 @@ document.getElementById('ob_photoInput').addEventListener('change', async (e) =>
   const statusEl = document.getElementById('ob_photoStatus');
   statusEl.textContent = 'Uploading...';
   try {
-    uploadedPhotoUrl = await uploadToCloudinary(file, 'image'); // reuses existing js/cloudinary.js helper
+    uploadedPhotoUrl = await uploadToCloudinary(file, 'image');
     statusEl.textContent = 'Uploaded.';
   } catch {
     statusEl.textContent = 'Upload failed — try again.';
   }
+});
+
+document.getElementById('ob_bio').addEventListener('input', (e) => {
+  document.getElementById('obBioCount').textContent = `${e.target.value.length}/400`;
 });
 
 document.getElementById('onboardForm').addEventListener('submit', async (e) => {
@@ -194,9 +194,6 @@ document.getElementById('onboardForm').addEventListener('submit', async (e) => {
       fullName: document.getElementById('ob_fullName').value,
       stageName: document.getElementById('ob_stageName').value,
       whatsappNumber: document.getElementById('ob_whatsappNumber').value,
-document.getElementById('ob_bio').addEventListener('input', (e) => {
-  document.getElementById('obBioCount').textContent = `${e.target.value.length}/400`;
-});
       bio: document.getElementById('ob_bio').value,
       photoUrl: uploadedPhotoUrl,
       status: document.getElementById('ob_status').value
