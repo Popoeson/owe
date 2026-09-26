@@ -125,7 +125,7 @@
 .admin-revenue-bar-seg.vote { background: var(--blue-deep); }
 .admin-revenue-bar-seg.ticket { background: var(--blue-ink); }
 .admin-revenue-line { font-family: 'Sora', sans-serif; display: flex; align-items: center; gap: 8px; font-size: 14.5px; color: var(--text-muted); padding: 6px 0; }
-.admin-revenue-line b { margin-left: auto; color: var(--text-body); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+.admin-revenue-line b { margin-left: auto; color: var(--text-body); font-family: 'Sora', sans-serif; font-weight: 600; }
 .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
 .dot.reg { background: var(--orange); } .dot.vote { background: var(--blue-deep); } .dot.ticket { background: var(--blue-ink); }
 
