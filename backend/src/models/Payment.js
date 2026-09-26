@@ -20,4 +20,13 @@ const paymentSchema = new mongoose.Schema({
   confirmedAt: { type: Date, default: null }
 }, { timestamps: true });
 
+// Same idea as registrationData, but for type: 'vote'.
+  voteData: {
+    voterEmail: String,
+    allocations: [{
+      performerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Performer' },
+      quantity: Number
+    }]
+  },
+
 module.exports = mongoose.model('Payment', paymentSchema);
