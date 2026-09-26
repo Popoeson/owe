@@ -19,10 +19,23 @@
   <h1 class="admin-page-title">Voting control</h1>
   <p class="admin-page-sub">One switch runs the whole voting phase.</p>
 
-  <div class="admin-subtabs">
-    <button class="admin-subtab active" id="tabControl">Control</button>
-    <button class="admin-subtab" id="tabStatBoard">Stat board</button>
+<div class="admin-modal-backdrop" id="newSessionBackdrop" style="display:none;">
+  <div class="admin-modal">
+    <div class="admin-modal-head">
+      <h3>Start new session</h3>
+      <button class="admin-modal-close" id="closeNewSessionModal">&times;</button>
+    </div>
+    <p class="admin-page-sub" id="newSessionWarning" style="display:none;"></p>
+    <div class="field">
+      <label for="ns_name">Session name</label>
+      <input type="text" id="ns_name" placeholder="e.g. Round 1 — Live Semifinals" required>
+    </div>
+    <p class="admin-form-section-label" style="margin-top:14px;">SELECT PERFORMERS</p>
+    <div id="ns_performerList" class="admin-checklist"></div>
+    <p class="error-text" id="newSessionError" style="display:none;"></p>
+    <button class="btn btn-primary" id="createSessionBtn" style="width:100%; margin-top:14px;">Start session</button>
   </div>
+</div>
 
   <div id="controlView">
     <div class="admin-card admin-master-control" id="masterControlCard">
@@ -65,6 +78,8 @@
     </div>
   </div>
 </div>
+
+
 
 <script src="../js/api.js"></script>
 <script src="../js/admin/authGuard.js"></script>
