@@ -18,6 +18,7 @@ const paymentSchema = new mongoose.Schema({
   // Same idea as registrationData, but for type: 'vote'.
   voteData: {
     voterEmail: String,
+    sessionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Session' },
     allocations: [{
       performerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Performer' },
       quantity: Number
