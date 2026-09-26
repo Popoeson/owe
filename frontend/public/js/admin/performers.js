@@ -93,15 +93,15 @@ function renderDetail(p) {
         ${!p.isActive ? `<span class="admin-badge deactivated">DEACTIVATED</span>` : ''}
       </div>
 
-      <div class="admin-detail-grid">
-        <div><span class="admin-detail-label">FULL NAME</span><div>${p.fullName}</div></div>
-        <div><span class="admin-detail-label">STAGE NAME</span><div>${p.stageName}</div></div>
-        <div><span class="admin-detail-label">VOTES</span><div>${p.voteCount.toLocaleString()}</div></div>
-        <div><span class="admin-detail-label">PAYMENT REF</span><div class="admin-detail-wrap">${p.registrationPaymentRef || '—'}</div></div>
-        <div><span class="admin-detail-label">EMAIL</span><div class="admin-detail-wrap">${p.email || '—'}</div></div>
-        <div><span class="admin-detail-label">PHONE</span><div>${p.whatsappNumber}</div></div>
-        <div><span class="admin-detail-label">SUBMITTED</span><div>${fmtDate(p.createdAt)}</div></div>
-      </div>
+      <div class="admin-detail-list">
+  <div class="admin-detail-box"><span class="admin-detail-label">FULL NAME</span><div>${p.fullName}</div></div>
+  <div class="admin-detail-box"><span class="admin-detail-label">STAGE NAME</span><div>${p.stageName}</div></div>
+  <div class="admin-detail-box"><span class="admin-detail-label">VOTES</span><div>${p.voteCount.toLocaleString()}</div></div>
+  <div class="admin-detail-box"><span class="admin-detail-label">PAYMENT REF</span><div class="admin-detail-wrap">${p.registrationPaymentRef || '—'}</div></div>
+  <div class="admin-detail-box"><span class="admin-detail-label">EMAIL</span><div class="admin-detail-wrap">${p.email || '—'}</div></div>
+  <div class="admin-detail-box"><span class="admin-detail-label">PHONE</span><div>${p.whatsappNumber}</div></div>
+  <div class="admin-detail-box"><span class="admin-detail-label">SUBMITTED</span><div>${fmtDate(p.createdAt)}</div></div>
+</div>
 
       <div class="admin-detail-bio">
         <span class="admin-detail-label">BIO</span>
