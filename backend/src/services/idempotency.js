@@ -3,7 +3,6 @@ const Performer = require('../models/Performer');
 const Vote = require('../models/Vote');
 const Session = require('../models/Session');
 
-
 /**
  * Confirms a payment exactly once, no matter how many times or from how many
  * paths (webhook, manual verify) this gets called for the same reference.
@@ -35,7 +34,6 @@ async function confirmPayment(reference) {
     await payment.save();
   }
 
-// ...replacing the existing vote branch:
   if (payment.type === 'vote') {
     const { sessionId, allocations, voterEmail } = payment.voteData;
 
@@ -47,21 +45,19 @@ async function confirmPayment(reference) {
       totalAmount: payment.amount
     });
 
+    // Session-scoped only — each session owns its own votes, nothing rolls up to Performer.
     await Promise.all(allocations.map((a) =>
-      Promise.all([
-        // Session-scoped count — this is what ranking/standings actually reads.
-        Session.updateOne(
-          { _id: sessionId, 'performers.performerId': a.performerId },
-          { $inc: { 'performers.$.voteCount': a.quantity } }
-        ),
-        // All-time counter on Performer — kept for historical/legacy purposes, not used for ranking.
-        Performer.findByIdAndUpdate(a.performerId, { $inc: { voteCount: a.quantity } })
-      ])
+      Session.updateOne(
+        { _id: sessionId, 'performers.performerId': a.performerId },
+        { $inc: { 'performers.$.voteCount': a.quantity } }
+      )
     ));
 
     payment.relatedId = vote._id;
     await payment.save();
   }
-  
+
+  return { alreadyHandled: false, payment };
+}
 
 module.exports = { confirmPayment };
