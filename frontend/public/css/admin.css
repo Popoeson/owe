@@ -219,7 +219,7 @@
 .admin-table th { text-align: left; padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.04em; border-bottom: 1px solid var(--border); }
 .admin-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .admin-table tr:last-child td { border-bottom: none; }
-.admin-td-mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+.admin-td-mono { font-family: 'Sora', sans-serif; monospace; font-size: 12.5px; }
 .admin-td-capitalize { text-transform: capitalize; }
 .admin-td-payer-name { font-weight: 600; }
 .admin-td-payer-email { font-size: 12px; color: var(--text-muted); }
