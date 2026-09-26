@@ -34,16 +34,17 @@ function renderControl() {
     descEl.textContent = paused
       ? 'Paused — the Stat Board is visible but vote buttons are disabled.'
       : 'Live — fans can buy votes on the Stat Board right now.';
-    actionsEl.innerHTML = paused
-      ? `<button class="btn btn-primary" id="resumeBtn">Resume voting</button>`
-      : `<button class="btn admin-btn-danger" id="pauseBtn">Pause voting</button>`;
-    (paused
-      ? document.getElementById.bind(document)('resumeBtn')
-      : document.getElementById.bind(document)('pauseBtn')
-    )?.addEventListener('click', () => showPauseModal(paused));
-    actionsEl.innerHTML += ` <button class="admin-link-action danger" id="endSessionBtn" style="margin-top:10px;">End session</button>`;
+    actionsEl.innerHTML = `
+      ${paused
+        ? `<button class="btn btn-primary" id="resumeBtn">Resume voting</button>`
+        : `<button class="btn admin-btn-danger" id="pauseBtn">Pause voting</button>`}
+      <button class="admin-link-action danger" id="endSessionBtn" style="margin-top:10px;">End session</button>
+    `;
+
+    const toggleBtn = document.getElementById(paused ? 'resumeBtn' : 'pauseBtn');
+    toggleBtn.addEventListener('click', () => showPauseModal(paused));
+
     document.getElementById('endSessionBtn').addEventListener('click', endCurrentSession);
-  }
 
   document.getElementById('priceInput').value = settingsCache.votePrice / 100;
   updatePreview();
