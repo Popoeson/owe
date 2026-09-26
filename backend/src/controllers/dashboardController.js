@@ -2,15 +2,14 @@ const Performer = require('../models/Performer');
 const Payment = require('../models/Payment');
 const Settings = require('../models/Settings');
 const Vote = require('../models/Vote');
-
-const activeSession = await Session.findOne({ status: 'active' });
+const Session = require('../models/Session');
 
 async function getStats(req, res, next) {
   try {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
 
-    const [pendingCount, approvedCount, registrationAgg, votingAgg, settings, totalVotesAgg, votesTodayAgg] = await Promise.all([
+    const [pendingCount, approvedCount, registrationAgg, votingAgg, settings, totalVotesAgg, votesTodayAgg, activeSession] = await Promise.all([
       Performer.countDocuments({ status: 'pending' }),
       Performer.countDocuments({ status: 'approved', isActive: true }),
       Payment.aggregate([
@@ -30,7 +29,8 @@ async function getStats(req, res, next) {
         { $match: { createdAt: { $gte: startOfToday } } },
         { $unwind: '$allocations' },
         { $group: { _id: null, total: { $sum: '$allocations.quantity' } } }
-      ])
+      ]),
+      Session.findOne({ status: 'active' })
     ]);
 
     const registrationRevenue = registrationAgg[0]?.total || 0;
@@ -51,7 +51,6 @@ async function getStats(req, res, next) {
         voting: votingRevenue,
         tickets: ticketRevenue
       },
-
       voting: {
         isOpen: !!activeSession && !activeSession.isPaused,
         pricePerVote: settings.votePrice,
