@@ -34,7 +34,7 @@ async function confirmPayment(reference) {
     await payment.save();
   }
 
-  if (payment.type === 'vote') {
+if (payment.type === 'vote') {
     const { sessionId, allocations, voterEmail } = payment.voteData;
 
     const vote = await Vote.create({
