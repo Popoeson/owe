@@ -45,6 +45,7 @@ function renderControl() {
     toggleBtn.addEventListener('click', () => showPauseModal(paused));
 
     document.getElementById('endSessionBtn').addEventListener('click', endCurrentSession);
+  }
 
   document.getElementById('priceInput').value = settingsCache.votePrice / 100;
   updatePreview();
