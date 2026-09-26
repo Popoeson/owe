@@ -101,8 +101,8 @@ function renderDetail(p) {
         <div><span class="admin-detail-label">FULL NAME</span><div>${p.fullName}</div></div>
         <div><span class="admin-detail-label">STAGE NAME</span><div>${p.stageName}</div></div>
         <div><span class="admin-detail-label">VOTES</span><div>${p.voteCount.toLocaleString()}</div></div>
-        <div><span class="admin-detail-label">PAYMENT REF</span><div>${p.registrationPaymentRef || '—'}</div></div>
-        <div><span class="admin-detail-label">EMAIL</span><div>${maskEmail(p.email)}</div></div>
+        <<div><span class="admin-detail-label">PAYMENT REF</span><div class="admin-detail-wrap">${p.registrationPaymentRef || '—'}</div></div>
+       <div><span class="admin-detail-label">EMAIL</span><div class="admin-detail-wrap">${p.email || '—'}</div></div>
         <div><span class="admin-detail-label">PHONE</span><div>${p.whatsappNumber}</div></div>
         <div><span class="admin-detail-label">SUBMITTED</span><div>${fmtDate(p.createdAt)}</div></div>
       </div>
