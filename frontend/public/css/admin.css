@@ -187,3 +187,18 @@
 @media (min-width: 640px) { .admin-modal-backdrop { align-items: center; } .admin-modal { border-radius: 16px; } }
 .admin-modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
 .admin-modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); }
+
+.admin-form-section-label { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 16px; }
+.admin-modal .field { margin-bottom: 16px; }
+.admin-modal label { display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.admin-modal input, .admin-modal textarea, .admin-modal select {
+  width: 100%; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--border);
+  font-size: 15px; font-family: 'Inter', sans-serif;
+}
+.admin-modal textarea { min-height: 90px; resize: vertical; }
+.admin-modal input:focus, .admin-modal textarea:focus, .admin-modal select:focus {
+  outline: none; border-color: var(--blue-deep); box-shadow: 0 0 0 3px rgba(16,11,174,0.12);
+}
+.admin-modal .hint { font-size: 12.5px; color: var(--text-muted); margin: 6px 0 0; }
+.badge-shown { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; background: var(--orange-soft); color: #7A4E00; padding: 3px 8px; border-radius: 999px; }
+.admin-char-count { font-weight: 400; font-size: 12px; color: var(--text-muted); }
