@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Voting Control — Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+<div id="adminNav"></div>
+
+<main class="admin-main">
+  <h1 class="admin-page-title">Voting control</h1>
+  <p class="admin-page-sub">One switch runs the whole voting phase.</p>
+
+  <div class="admin-subtabs">
+    <button class="admin-subtab active" id="tabControl">Control</button>
+    <button class="admin-subtab" id="tabStatBoard">Stat board</button>
+  </div>
+
+  <div id="controlView">
+    <div class="admin-card admin-master-control" id="masterControlCard">
+      <span class="admin-card-label" style="color:rgba(255,255,255,0.6);">MASTER CONTROL</span>
+      <h2 id="votingHeadline">Voting is <span id="votingWord">—</span></h2>
+      <p id="votingDesc"></p>
+      <label class="admin-toggle">
+        <input type="checkbox" id="votingToggle">
+        <span class="admin-toggle-track"><span class="admin-toggle-thumb"></span></span>
+      </label>
+    </div>
+
+    <div class="admin-card admin-price-card">
+      <h3>Price per vote</h3>
+      <p class="admin-page-sub">Changes apply to new votes immediately. Past votes keep the price they were bought at.</p>
+      <div class="admin-price-input-wrap">
+        <span class="admin-naira-prefix">₦</span>
+        <input type="number" id="priceInput" min="1">
+      </div>
+      <button class="btn btn-primary" id="savePriceBtn" style="width:100%; margin-top:14px;">Save price</button>
+      <p class="admin-price-preview" id="pricePreview"></p>
+    </div>
+  </div>
+
+  <div id="statBoardView" style="display:none;">
+    <div id="statBoardList"></div>
+  </div>
+</main>
+
+<div class="admin-modal-backdrop" id="pauseModalBackdrop" style="display:none;">
+  <div class="admin-modal">
+    <div class="admin-modal-head">
+      <h3 id="pauseModalTitle"></h3>
+      <button class="admin-modal-close" id="closePauseModal">&times;</button>
+    </div>
+    <p id="pauseModalBody"></p>
+    <div class="admin-modal-actions">
+      <button class="btn btn-ghost" id="cancelPauseBtn">Cancel</button>
+      <button class="btn admin-btn-danger" id="confirmPauseBtn"></button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/admin/authGuard.js"></script>
+<script src="../js/admin/nav.js"></script>
+<script>renderAdminNav('voting-control');</script>
+<script src="../js/admin/votingControl.js"></script>
+</body>
+</html>
