@@ -30,9 +30,13 @@
 <link rel="stylesheet" href="css/public.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/stat-board.css?v=2">
+<link rel="stylesheet" href="../css/server-status.css">
 </head>
 
 <body>
+
+  <div class="server-check-spinner"></div>
+  <p class="server-check-text">Connecting to server…</p>
 
 <nav class="navbar">
   <a href="index.html" class="nav-brand">
@@ -117,6 +121,7 @@
   </div>
 </div>
 
+<script src="js/server-check.js"></script>
 <script src="js/api.js"></script>
 <script src="js/stat-board.js"></script>
 </body>
