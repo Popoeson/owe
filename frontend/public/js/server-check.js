@@ -11,7 +11,7 @@
     const textEl = document.querySelector(`#${OVERLAY_ID} .server-check-text`);
     if (!textEl) return;
     if (attempts >= 5) {
-      textEl.textContent = "Still waking up the server — this can take up to a minute on first load.";
+      textEl.textContent = "Connecting to your network, Please wait — this can take up to a minute on first load.";
       textEl.classList.add('slow');
     }
   }
