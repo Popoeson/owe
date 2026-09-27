@@ -14,5 +14,6 @@ router.get('/stat-board', getStatBoard);
 router.post('/vote/initiate', initiateVote);
 router.get('/sessions', listEndedSessions);
 router.get('/sessions/:id', getSessionDetail);
+router.get('/health', (req, res) => res.json({ ok: true }));
 
 module.exports = router;
