@@ -1,0 +1,16 @@
+.server-check-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(165deg, var(--blue-deep) 0%, var(--blue-ink) 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 18px; text-align: center; padding: 24px;
+}
+.server-check-spinner {
+  width: 44px; height: 44px;
+  border: 4px solid rgba(255,255,255,0.25);
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  animation: server-check-spin 0.8s linear infinite;
+}
+@keyframes server-check-spin { to { transform: rotate(360deg); } }
+.server-check-text { color: rgba(255,255,255,0.85); font-size: 14px; max-width: 32ch; margin: 0; }
+.server-check-text.slow { color: var(--orange-soft); }
