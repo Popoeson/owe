@@ -10,8 +10,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="../css/server-status.css">
 </head>
 <body class="admin-auth-body">
+  <div class="server-check-spinner"></div>
+  <p class="server-check-text">Connecting to server…</p>
 
 <div class="admin-auth-cover">
   <img src="../images/okizz_logo.png" alt="OKIZZ Entertainment" class="admin-auth-logo-img">
@@ -48,6 +51,7 @@
   <p class="admin-auth-note"><i class="fa-solid fa-shield-halved"></i> Sessions end when you close this tab.</p>
 </main>
 
+<script src="js/server-check.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/admin/auth.js"></script>
 </body>
