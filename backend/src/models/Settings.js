@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const settingsSchema = new mongoose.Schema({
-  registrationFee: { type: Number, default: 500000 }, // kobo = ₦5,000
+  registrationFee: { type: Number, default: 20000 }, // kobo = ₦5,000
   votePrice: { type: Number, default: 10000 },         // kobo = ₦100
   votingOpen: { type: Boolean, default: false }
 });
