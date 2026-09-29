@@ -8,7 +8,7 @@ async function getSettings(req, res, next) {
 
 async function updateSettings(req, res, next) {
   try {
-    const { votePrice, votingOpen } = req.body;
+    const { votePrice, votingOpen, registrationFee } = req.body;
     const settings = await Settings.getSingleton();
 
     if (votePrice !== undefined) {
@@ -19,6 +19,12 @@ async function updateSettings(req, res, next) {
     }
     if (votingOpen !== undefined) {
       settings.votingOpen = !!votingOpen;
+    }
+    if (registrationFee !== undefined) {
+      if (typeof registrationFee !== 'number' || registrationFee <= 0) {
+        return res.status(400).json({ error: 'registrationFee must be a positive number (in kobo)' });
+      }
+      settings.registrationFee = registrationFee;
     }
 
     await settings.save();
