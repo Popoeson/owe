@@ -51,6 +51,10 @@ function renderControl() {
   updatePreview();
 }
 
+document.getElementById('priceInput').value = settingsCache.votePrice / 100;
+document.getElementById('regFeeInput').value = settingsCache.registrationFee / 100;
+updatePreview();
+
 function updatePreview() {
   const priceNaira = Number(document.getElementById('priceInput').value) || 0;
   document.getElementById('pricePreview').textContent = `Preview · 50 votes = ${naira(priceNaira * 100 * 50)}`;
@@ -93,6 +97,17 @@ document.getElementById('savePriceBtn').addEventListener('click', async () => {
     method: 'PATCH', credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ votePrice: priceNaira * 100 })
+  });
+  await loadAll();
+});
+
+document.getElementById('saveRegFeeBtn').addEventListener('click', async () => {
+  const feeNaira = Number(document.getElementById('regFeeInput').value);
+  if (!feeNaira || feeNaira <= 0) return;
+  await fetch(`${API_BASE}/admin/settings`, {
+    method: 'PATCH', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ registrationFee: feeNaira * 100 })
   });
   await loadAll();
 });
