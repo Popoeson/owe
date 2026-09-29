@@ -44,7 +44,7 @@ function renderFailed() {
   `;
 }
 
-async function poll() {
+/* async function poll() {
   const startedAt = Date.now();
   const interval = setInterval(async () => {
     try {
@@ -52,6 +52,45 @@ async function poll() {
       if (status === 'confirmed') { clearInterval(interval); renderSuccess(); return; }
       if (status === 'failed') { clearInterval(interval); renderFailed(); return; }
     } catch {}
+    if (Date.now() - startedAt > POLL_TIMEOUT_MS) {
+      clearInterval(interval);
+      renderFallback();
+    }
+  }, POLL_INTERVAL_MS);
+} */
+
+async function poll() {
+  const startedAt = Date.now();
+  let attempt = 0;
+  const interval = setInterval(async () => {
+    attempt++;
+    try {
+      const { status } = await apiGet(`/payments/${reference}/status`);
+      // TEMP DEBUG — remove after diagnosing
+      const debugEl = document.getElementById('debugStatus') || (() => {
+        const p = document.createElement('p');
+        p.id = 'debugStatus';
+        p.style.cssText = 'font-family:monospace;font-size:11px;color:#888;margin-top:10px;';
+        card.appendChild(p);
+        return p;
+      })();
+      debugEl.textContent = `Attempt ${attempt}: status="${status}"`;
+      // END TEMP DEBUG
+
+      if (status === 'confirmed') { clearInterval(interval); renderSuccess(); return; }
+      if (status === 'failed') { clearInterval(interval); renderFailed(); return; }
+    } catch (err) {
+      // TEMP DEBUG
+      const debugEl = document.getElementById('debugStatus') || (() => {
+        const p = document.createElement('p');
+        p.id = 'debugStatus';
+        p.style.cssText = 'font-family:monospace;font-size:11px;color:red;margin-top:10px;';
+        card.appendChild(p);
+        return p;
+      })();
+      debugEl.textContent = `Attempt ${attempt}: ERROR — ${err.message}`;
+      // END TEMP DEBUG
+    }
     if (Date.now() - startedAt > POLL_TIMEOUT_MS) {
       clearInterval(interval);
       renderFallback();
