@@ -48,12 +48,9 @@ function renderControl() {
   }
 
   document.getElementById('priceInput').value = settingsCache.votePrice / 100;
+  document.getElementById('regFeeInput').value = settingsCache.registrationFee / 100;
   updatePreview();
 }
-
-document.getElementById('priceInput').value = settingsCache.votePrice / 100;
-document.getElementById('regFeeInput').value = settingsCache.registrationFee / 100;
-updatePreview();
 
 function updatePreview() {
   const priceNaira = Number(document.getElementById('priceInput').value) || 0;
