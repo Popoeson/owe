@@ -15,6 +15,15 @@ const paymentSchema = new mongoose.Schema({
     photoUrl: String,
     whatsappNumber: String
   },
+
+  ticketData: {
+  tierId: { type: mongoose.Schema.Types.ObjectId, ref: 'TicketTier' },
+  quantity: Number,
+  unitPrice: Number,   // kobo, price snapshot at checkout
+  buyerName: String,
+  buyerEmail: String,
+},
+
   // Same idea as registrationData, but for type: 'vote'.
   voteData: {
     voterEmail: String,
