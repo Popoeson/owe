@@ -289,3 +289,13 @@
 .admin-upload-status { font-size: 12.5px; margin: 8px 0 0; color: var(--text-muted); }
 .admin-upload-status.done { color: var(--success); }
 .admin-upload-status.fail { color: var(--error); }
+
+.admin-qr-stage { position: relative; line-height: 0; border-radius: 8px; overflow: hidden; margin-bottom: 10px; background: var(--paper); }
+.admin-qr-stage img { width: 100%; height: auto; display: block; }
+.admin-qr-box {
+  position: absolute; transform: translate(-50%, -50%); aspect-ratio: 1 / 1; min-width: 28px;
+  background: rgba(255,255,255,0.92); border: 2px dashed var(--blue-deep); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--blue-deep); font-size: 18px; cursor: grab; touch-action: none; box-sizing: border-box;
+}
+.admin-modal input[type="range"] { padding: 0; border: none; accent-color: var(--blue-deep); }
