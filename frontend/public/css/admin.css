@@ -270,3 +270,12 @@
 .admin-history-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
 .admin-history-head h3 { font-size: 16px; margin: 0; }
 .admin-history-date { font-size: 12px; color: var(--text-muted); }
+
+/* Tickets */
+.admin-tier-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+.admin-tier-card.is-hidden { opacity: 0.65; }
+.admin-tier-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.admin-tier-name { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 17px; margin: 0 0 8px; }
+.admin-tier-price { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; white-space: nowrap; }
+.admin-tier-desc { color: var(--text-muted); font-size: 14px; margin: 10px 0 0; white-space: pre-line; }
+.admin-tier-actions { display: flex; gap: 18px; margin-top: 14px; }
