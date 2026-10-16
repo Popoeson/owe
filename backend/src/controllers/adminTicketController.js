@@ -9,6 +9,7 @@ const adminTier = (t) => ({
   category: t.category,
   description: t.description,
   priceNaira: t.price / 100,
+  imageUrl: t.imageUrl || '',
   isActive: t.isActive,
 });
 
@@ -23,10 +24,10 @@ exports.listTiers = async (req, res) => {
   }
 };
 
-// POST /api/admin/tickets/tiers   { name, category, description, priceNaira }
+// POST /api/admin/tickets/tiers   { name, category, description, priceNaira, imageUrl }
 exports.createTier = async (req, res) => {
   try {
-    const { name, category, description, priceNaira } = req.body;
+    const { name, category, description, priceNaira, imageUrl } = req.body;
     if (!name?.trim() || !category?.trim()) {
       return res.status(400).json({ message: 'Name and category are required.' });
     }
@@ -34,7 +35,7 @@ exports.createTier = async (req, res) => {
       return res.status(400).json({ message: 'Enter a price greater than 0.' });
     }
     const tier = await TicketTier.create({
-      name, category, description, price: toKobo(priceNaira),
+      name, category, description, imageUrl, price: toKobo(priceNaira),
     });
     res.status(201).json({ tier: adminTier(tier) });
   } catch (err) {
@@ -48,11 +49,12 @@ exports.createTier = async (req, res) => {
 exports.updateTier = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) return res.status(400).json({ message: 'Invalid id.' });
-    const { name, category, description, priceNaira, isActive } = req.body;
+    const { name, category, description, priceNaira, isActive, imageUrl } = req.body;
     const update = {};
     if (name !== undefined) update.name = name;
     if (category !== undefined) update.category = category;
     if (description !== undefined) update.description = description;
+    if (imageUrl !== undefined) update.imageUrl = imageUrl;
     if (isActive !== undefined) update.isActive = !!isActive;
     if (priceNaira !== undefined) {
       if (!(Number(priceNaira) > 0)) return res.status(400).json({ message: 'Enter a price greater than 0.' });
