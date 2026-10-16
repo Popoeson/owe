@@ -14,8 +14,13 @@ const adminTier = (t) => ({
 
 // GET /api/admin/tickets/tiers  (includes hidden tiers)
 exports.listTiers = async (req, res) => {
-  const tiers = await TicketTier.find().sort({ createdAt: 1 });
-  res.json({ tiers: tiers.map(adminTier) });
+  try {
+    const tiers = await TicketTier.find().sort({ createdAt: 1 });
+    res.json({ tiers: tiers.map(adminTier) });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not load tickets.' });
+  }
 };
 
 // POST /api/admin/tickets/tiers   { name, category, description, priceNaira }
@@ -64,10 +69,15 @@ exports.updateTier = async (req, res) => {
 
 // DELETE /api/admin/tickets/tiers/:id  -> hides the tier, keeps the record
 exports.hideTier = async (req, res) => {
-  if (!mongoose.isValidObjectId(req.params.id)) return res.status(400).json({ message: 'Invalid id.' });
-  const tier = await TicketTier.findByIdAndUpdate(req.params.id, { isActive: false }, { new: true });
-  if (!tier) return res.status(404).json({ message: 'Ticket not found.' });
-  res.json({ tier: adminTier(tier) });
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) return res.status(400).json({ message: 'Invalid id.' });
+    const tier = await TicketTier.findByIdAndUpdate(req.params.id, { isActive: false }, { new: true });
+    if (!tier) return res.status(404).json({ message: 'Ticket not found.' });
+    res.json({ tier: adminTier(tier) });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not hide ticket.' });
+  }
 };
 
 // POST /api/admin/tickets/scan   { code }
