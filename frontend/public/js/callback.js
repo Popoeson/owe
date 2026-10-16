@@ -49,8 +49,10 @@ function renderFallback() {
   document.getElementById('checkAgainBtn').addEventListener('click', manualCheck);
 }
 
-function renderSuccess() {
-  window.location.href = `confirmation.html?reference=${encodeURIComponent(reference)}`;
+async function renderSuccess() {
+  await loadType();
+  const target = paymentType === 'ticket' ? 'ticket-confirmation.html' : 'confirmation.html';
+  window.location.href = `${target}?reference=${encodeURIComponent(reference)}`;
 }
 
 function renderFailed() {
