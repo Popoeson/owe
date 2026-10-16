@@ -56,10 +56,11 @@ async function renderSuccess() {
 }
 
 function renderFailed() {
+  const retry = RETRY[paymentType] || RETRY.registration;
   card.innerHTML = `
     <h2>Payment didn't go through</h2>
-    <p>No charge was completed. You can try registering again.</p>
-    <a href="register.html" class="btn btn-primary">Try again</a>
+    <p>No charge was completed. You can try again.</p>
+    <a href="${retry.href}" class="btn btn-primary">${retry.label}</a>
   `;
 }
 
