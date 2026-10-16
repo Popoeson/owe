@@ -35,6 +35,7 @@ function renderDashboard({ pendingPerformers, approvedPerformers, revenue, votin
   document.getElementById('votesTodayNote').textContent = `+${voting.votesToday.toLocaleString()} today`;
   document.getElementById('ticketsSoldCount').textContent = tickets.sold.toLocaleString();
 
-  document.getElementById('ticketsCapacityNote').textContent = `${naira(tickets.revenue)} from tickets`;
+    document.getElementById('ticketsCapacityNote').textContent = `${naira(tickets.revenue)} from tickets`;
+}
 
 loadDashboard();
