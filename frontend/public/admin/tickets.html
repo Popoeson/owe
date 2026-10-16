@@ -68,13 +68,17 @@
     <div class="field">
       <label for="tierImageInput">Ticket image</label>
       <div class="admin-upload-box">
-        <img id="tierImagePreview" class="admin-upload-preview" alt="" style="display:none;">
+                <div class="admin-qr-stage" id="qrStage" style="display:none;">
+          <img id="tierImagePreview" alt="">
+          <div class="admin-qr-box" id="qrBox"><i class="fa-solid fa-qrcode"></i></div>
+        </div>
         <input type="file" id="tierImageInput" accept="image/*">
         <div class="admin-progress-track" id="tierProgressTrack"><div class="admin-progress-fill" id="tierProgressFill"></div></div>
         <p class="admin-upload-status" id="tierImageStatus"></p>
       </div>
-      <p class="hint">Upload the ticket design. Max 5MB.</p>
-    </div>
+            <p class="hint">Upload the ticket design (max 5MB). Then drag the QR box to where the QR code should print on the ticket.</p>
+      <label for="qrSizeRange" style="margin-top:12px;">QR size <span class="admin-char-count" id="qrSizeLabel">13%</span></label>
+      <input type="range" id="qrSizeRange" min="6" max="30" step="1" value="13">
 
     <p class="error-text" id="tierError" style="display:none;"></p>
     <button class="btn btn-primary" id="saveTierBtn" style="width:100%;">Save ticket</button>
