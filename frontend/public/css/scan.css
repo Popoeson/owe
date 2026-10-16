@@ -120,3 +120,7 @@
 .scan-result-details p { margin: 4px 0; font-size: 16px; }
 .scan-result-details p.strong { font-weight: 700; font-size: 18px; }
 .scan-result .scan-btn { max-width: 320px; }
+
+.scan-now { background: var(--orange); color: #2A1900; font-size: 17px; padding: 16px; }
+.scan-btn.secondary.full { width: 100%; margin-top: 10px; background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.35); }
+.scan-msg { color: var(--orange-soft); font-size: 14px; text-align: center; margin: 10px 0 0; }
