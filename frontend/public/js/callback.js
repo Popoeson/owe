@@ -1,6 +1,6 @@
 const params = new URLSearchParams(window.location.search);
 const reference = params.get('reference') || params.get('trxref');
-const card = const card = document.getElementById('statusCard');
+const card = document.getElementById('statusCard');
 
 // Asked of the backend (never decided by the page): what kind of payment is this?
 let paymentType = null;
