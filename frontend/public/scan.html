@@ -72,7 +72,17 @@
 
 <script src="js/server-check.js"></script>
 <script src="js/api.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+  if (typeof jsQR !== 'function') {
+    document.write('<script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"><\/script>');
+  }
+</script>
+<script>
+  if (typeof jsQR !== 'function') {
+    document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"><\/script>');
+  }
+</script>
 <script src="js/scan.js"></script>
 </body>
 </html>
