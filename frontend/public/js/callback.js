@@ -123,4 +123,3 @@ if (!reference) {
   renderChecking();
   poll();
 }
-}
