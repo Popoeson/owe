@@ -3,6 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const publicRoutes = require('./routes/public.routes');
 const adminRoutes = require('./routes/admin.routes');
+const ticketRoutes = require('./routes/tickets');
 const { paystackWebhook } = require('./controllers/paymentController');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -21,6 +22,7 @@ app.post(
 
 app.use(express.json());
 
+app.use('/api/tickets', ticketRoutes);
 app.use('/api', publicRoutes);
 app.use('/api/admin', adminRoutes);
 
