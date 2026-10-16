@@ -4,9 +4,13 @@ const TicketTier = require('../models/TicketTier');
 const Ticket = require('../models/Ticket');
 const Payment = require('../models/Payment');
 const { initializeTransaction } = require('../services/paystackService');
+const { issueTicketsForPayment } = require('../services/ticketFulfillment');
 
-const MAX_PER_ORDER = 10;
+const MAX_PER_TIER = 10;
+const MAX_TICKETS_PER_ORDER = 20;
+const MAX_TIERS_PER_ORDER = 10;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const OBJECT_ID_RE = /^[a-f\d]{24}$/i;
 
 const publicTier = (t) => ({
   id: t._id,
@@ -28,29 +32,66 @@ exports.listTiers = async (req, res) => {
   }
 };
 
-// POST /api/tickets/initiate   { tierId, quantity, buyerName, buyerEmail }
+// POST /api/tickets/initiate
+// { items: [{ tierId, quantity }, ...], buyerName, buyerEmail }
+// The client never sends a price or total. Everything is recomputed here.
 exports.initiatePurchase = async (req, res) => {
   try {
-    const { tierId, quantity, buyerName, buyerEmail } = req.body;
-    const qty = Number(quantity);
+    const { items, buyerName, buyerEmail } = req.body;
 
-    if (!mongoose.isValidObjectId(tierId)) {
-      return res.status(400).json({ message: 'Invalid ticket type.' });
+    if (!Array.isArray(items) || items.length === 0 || items.length > MAX_TIERS_PER_ORDER) {
+      return res.status(400).json({ message: 'Choose at least one ticket.' });
     }
-    if (!Number.isInteger(qty) || qty < 1 || qty > MAX_PER_ORDER) {
-      return res.status(400).json({ message: `Quantity must be 1 to ${MAX_PER_ORDER}.` });
+
+    // Validate and merge duplicate tiers
+    const wanted = new Map(); // tierId -> quantity
+    for (const it of items) {
+      const id = it && String(it.tierId);
+      const qty = Number(it && it.quantity);
+      if (!OBJECT_ID_RE.test(id || '')) {
+        return res.status(400).json({ message: 'Invalid ticket type.' });
+      }
+      if (!Number.isInteger(qty) || qty < 1) {
+        return res.status(400).json({ message: 'Invalid quantity.' });
+      }
+      wanted.set(id, (wanted.get(id) || 0) + qty);
     }
-    if (!buyerName || !buyerName.trim()) {
+
+    let totalTickets = 0;
+    for (const qty of wanted.values()) {
+      if (qty > MAX_PER_TIER) {
+        return res.status(400).json({ message: `You can buy up to ${MAX_PER_TIER} of each ticket type.` });
+      }
+      totalTickets += qty;
+    }
+    if (totalTickets > MAX_TICKETS_PER_ORDER) {
+      return res.status(400).json({ message: `You can buy up to ${MAX_TICKETS_PER_ORDER} tickets per order.` });
+    }
+
+    if (!buyerName || !buyerName.trim() || buyerName.trim().length > 100) {
       return res.status(400).json({ message: 'Name is required.' });
     }
     if (!buyerEmail || !EMAIL_RE.test(buyerEmail)) {
       return res.status(400).json({ message: 'A valid email is required.' });
     }
 
-    const tier = await TicketTier.findOne({ _id: tierId, isActive: true });
-    if (!tier) return res.status(404).json({ message: 'This ticket is no longer available.' });
+    // Prices come from the database only
+    const tiers = await TicketTier.find({ _id: { $in: [...wanted.keys()] }, isActive: true }).sort({ price: 1 });
+    if (tiers.length !== wanted.size) {
+      return res.status(409).json({
+        message: 'One or more selected tickets are no longer available. Please refresh and try again.'
+      });
+    }
 
-    const amount = tier.price * qty; // kobo; price snapshot taken now (BR-03)
+    let amount = 0; // kobo
+    const orderItems = tiers.map((tier) => {
+      const quantity = wanted.get(String(tier._id));
+      amount += tier.price * quantity;
+      return { tierId: tier._id, quantity, unitPrice: tier.price }; // price snapshot (BR-03)
+    });
+
+    const email = buyerEmail.trim().toLowerCase();
+    const name = buyerName.trim();
     const reference = `okizz_tkt_${crypto.randomBytes(8).toString('hex')}`;
 
     const payment = await Payment.create({
@@ -58,15 +99,9 @@ exports.initiatePurchase = async (req, res) => {
       type: 'ticket',
       amount,
       status: 'initiated',
-      payerEmail: buyerEmail.trim().toLowerCase(),
-      payerName: buyerName.trim(),
-      ticketData: {
-        tierId: tier._id,
-        quantity: qty,
-        unitPrice: tier.price,
-        buyerName: buyerName.trim(),
-        buyerEmail: buyerEmail.trim().toLowerCase(),
-      },
+      payerEmail: email,
+      payerName: name,
+      ticketData: { items: orderItems, buyerName: name, buyerEmail: email },
     });
 
     const tx = await initializeTransaction({
@@ -84,7 +119,7 @@ exports.initiatePurchase = async (req, res) => {
 };
 
 // GET /api/tickets/by-reference/:reference
-// Used by the confirmation page, and to re-download a lost ticket later.
+// Returns tickets only once the backend has confirmed the payment.
 exports.getByReference = async (req, res) => {
   try {
     const payment = await Payment.findOne({ reference: req.params.reference, type: 'ticket' });
@@ -94,14 +129,26 @@ exports.getByReference = async (req, res) => {
       return res.status(202).json({ status: payment.status, tickets: [] });
     }
 
-    const tickets = await Ticket.find({ paymentRef: payment.reference })
+    const expected = payment.ticketData.items.reduce((sum, i) => sum + i.quantity, 0);
+    const load = () => Ticket.find({ paymentRef: payment.reference })
       .sort({ seq: 1 })
-      .populate('tierId', 'name category imageUrl');
+      .populate('tierId', 'name category imageUrl qrX qrY qrSize');
 
-    if (tickets.length === 0) return res.status(202).json({ status: 'issuing', tickets: [] });
+    let tickets = await load();
+
+    // Self-heal: confirmed but tickets missing (e.g. a crash mid-issue). Safe to repeat.
+    if (tickets.length < expected) {
+      await issueTicketsForPayment(payment);
+      tickets = await load();
+    }
+    if (tickets.length < expected) {
+      return res.status(202).json({ status: 'issuing', tickets: [] });
+    }
 
     res.json({
       status: 'confirmed',
+      buyerName: payment.ticketData.buyerName,
+      amountNaira: payment.amount / 100,
       tickets: tickets.map((t) => ({
         qrCode: t.qrCode,
         seq: t.seq,
@@ -109,6 +156,9 @@ exports.getByReference = async (req, res) => {
         tierName: t.tierId?.name,
         category: t.tierId?.category,
         imageUrl: t.tierId?.imageUrl || '',
+        qrX: t.tierId?.qrX,
+        qrY: t.tierId?.qrY,
+        qrSize: t.tierId?.qrSize,
         status: t.status,
       })),
     });
