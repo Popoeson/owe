@@ -119,6 +119,8 @@ if (!reference) {
   card.innerHTML = `<h2>Missing payment reference</h2><p>Please start again from the registration page.</p>
     <a href="register.html" class="btn btn-primary">Back to registration</a>`;
 } else {
+    loadType();
   renderChecking();
   poll();
+}
 }
