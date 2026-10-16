@@ -14,6 +14,7 @@ const publicTier = (t) => ({
   category: t.category,
   description: t.description,
   priceNaira: t.price / 100,
+  imageUrl: t.imageUrl || '',
 });
 
 // GET /api/tickets/tiers
@@ -95,7 +96,7 @@ exports.getByReference = async (req, res) => {
 
     const tickets = await Ticket.find({ paymentRef: payment.reference })
       .sort({ seq: 1 })
-      .populate('tierId', 'name category');
+      .populate('tierId', 'name category imageUrl');
 
     if (tickets.length === 0) return res.status(202).json({ status: 'issuing', tickets: [] });
 
@@ -107,6 +108,7 @@ exports.getByReference = async (req, res) => {
         buyerName: t.buyerName,
         tierName: t.tierId?.name,
         category: t.tierId?.category,
+        imageUrl: t.tierId?.imageUrl || '',
         status: t.status,
       })),
     });
