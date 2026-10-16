@@ -2,6 +2,7 @@ const Payment = require('../models/Payment');
 const Performer = require('../models/Performer');
 const Vote = require('../models/Vote');
 const Session = require('../models/Session');
+const { issueTicketsForPayment } = require('./ticketFulfillment');
 
 /**
  * Confirms a payment exactly once, no matter how many times or from how many
@@ -20,6 +21,11 @@ async function confirmPayment(reference) {
   if (!payment) {
     // Either already confirmed by the other path, or reference doesn't exist.
     const existing = await Payment.findOne({ reference });
+    // Self-heal: a confirmed ticket payment that never got its tickets
+    // (e.g. a crash between confirming and issuing). Issuing is safe to repeat.
+    if (existing && existing.type === 'ticket' && existing.status === 'confirmed') {
+      await issueTicketsForPayment(existing);
+    }
     return { alreadyHandled: true, payment: existing || null };
   }
 
@@ -55,6 +61,10 @@ if (payment.type === 'vote') {
 
     payment.relatedId = vote._id;
     await payment.save();
+  }
+
+  if (payment.type === 'ticket') {
+    await issueTicketsForPayment(payment);
   }
 
   return { alreadyHandled: false, payment };
