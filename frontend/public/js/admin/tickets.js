@@ -5,6 +5,11 @@ let uploading = false;
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB
 
+// Where the QR prints on the ticket image (fractions of the image).
+// Defaults suit the stub on the right-hand side of the standard design.
+const DEFAULT_QR = { x: 0.848, y: 0.605, size: 0.127 };
+let qr = { ...DEFAULT_QR };
+
 const listEl = document.getElementById('tierList');
 const backdrop = document.getElementById('tierModalBackdrop');
 const errorEl = document.getElementById('tierError');
@@ -14,6 +19,9 @@ const imagePreview = document.getElementById('tierImagePreview');
 const progressTrack = document.getElementById('tierProgressTrack');
 const progressFill = document.getElementById('tierProgressFill');
 const imageStatus = document.getElementById('tierImageStatus');
+const qrStage = document.getElementById('qrStage');
+const qrBox = document.getElementById('qrBox');
+const qrSizeRange = document.getElementById('qrSizeRange');
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -29,10 +37,11 @@ function setImageStatus(text, cls) {
 function showPreview(src) {
   if (src) {
     imagePreview.src = src;
-    imagePreview.style.display = 'block';
+    qrStage.style.display = 'block';
+    updateQrBox();
   } else {
     imagePreview.removeAttribute('src');
-    imagePreview.style.display = 'none';
+    qrStage.style.display = 'none';
   }
 }
 
@@ -129,6 +138,14 @@ function openModal(tier) {
   imageInput.value = '';
   progressTrack.style.display = 'none';
   progressFill.style.width = '0%';
+
+  qr = {
+    x: tier && tier.qrX != null ? tier.qrX : DEFAULT_QR.x,
+    y: tier && tier.qrY != null ? tier.qrY : DEFAULT_QR.y,
+    size: tier && tier.qrSize != null ? tier.qrSize : DEFAULT_QR.size
+  };
+  qrSizeRange.value = Math.round(qr.size * 100);
+
   showPreview(imageUrl);
   setImageStatus(imageUrl ? 'Current image. Choose a file to replace it.' : '');
 
@@ -174,6 +191,49 @@ imageInput.addEventListener('change', async (e) => {
   }
 });
 
+/* ---------- QR placement ---------- */
+let draggingQr = false;
+
+function updateQrBox() {
+  qrBox.style.left = `${qr.x * 100}%`;
+  qrBox.style.top = `${qr.y * 100}%`;
+  qrBox.style.width = `${qr.size * 100}%`;
+  document.getElementById('qrSizeLabel').textContent = `${Math.round(qr.size * 100)}%`;
+}
+
+// fx, fy = desired centre as fractions of the image; clamped so the box stays inside it
+function placeQr(fx, fy) {
+  const rect = qrStage.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  const halfW = qr.size / 2;
+  const halfH = (qr.size * rect.width) / rect.height / 2;
+  qr.x = Math.min(1 - halfW, Math.max(halfW, fx));
+  qr.y = Math.min(1 - halfH, Math.max(halfH, fy));
+  updateQrBox();
+}
+
+function moveQr(clientX, clientY) {
+  const rect = qrStage.getBoundingClientRect();
+  placeQr((clientX - rect.left) / rect.width, (clientY - rect.top) / rect.height);
+}
+
+qrBox.addEventListener('pointerdown', (e) => {
+  draggingQr = true;
+  qrBox.setPointerCapture(e.pointerId);
+  e.preventDefault();
+});
+qrBox.addEventListener('pointermove', (e) => { if (draggingQr) moveQr(e.clientX, e.clientY); });
+qrBox.addEventListener('pointerup', () => { draggingQr = false; });
+qrBox.addEventListener('pointercancel', () => { draggingQr = false; });
+qrStage.addEventListener('click', (e) => {
+  if (qrBox.contains(e.target)) return;
+  moveQr(e.clientX, e.clientY);
+});
+qrSizeRange.addEventListener('input', () => {
+  qr.size = Number(qrSizeRange.value) / 100;
+  placeQr(qr.x, qr.y);
+});
+
 document.getElementById('addTierBtn').addEventListener('click', () => openModal(null));
 document.getElementById('closeTierModal').addEventListener('click', closeModal);
 
@@ -192,7 +252,12 @@ saveBtn.addEventListener('click', async () => {
   if (!imageUrl) return fail('Please upload a ticket image.');
 
   saveBtn.disabled = true;
-  const body = { name, category, description, priceNaira, imageUrl };
+  const body = {
+    name, category, description, priceNaira, imageUrl,
+    qrX: Number(qr.x.toFixed(4)),
+    qrY: Number(qr.y.toFixed(4)),
+    qrSize: Number(qr.size.toFixed(4))
+  };
   const { ok, data } = editingId
     ? await sendRequest(`${API_BASE}/admin/tickets/tiers/${editingId}`, 'PUT', body)
     : await sendRequest(`${API_BASE}/admin/tickets/tiers`, 'POST', body);
