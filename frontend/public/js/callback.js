@@ -30,7 +30,7 @@ function renderChecking() {
   card.innerHTML = `
     <div class="equalizer"><span></span><span></span><span class="accent"></span><span></span><span></span></div>
     <h2>Checking your payment…</h2>
-    <p>We're confirming your audition fee with the bank. Please keep this page open.</p>
+        <p>We're confirming your payment with the bank. Please keep this page open.</p>
     ${refChip()}
     <a href="index.html" class="back-home">Back to home</a>
   `;
