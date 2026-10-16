@@ -51,8 +51,14 @@ async function paystackWebhook(req, res, next) {
     }
 
     const event = req.body;
-    if (event.event === 'charge.success') {
-      await confirmPayment(event.data.reference);
+        if (event.event === 'charge.success') {
+      // Confirm only if Paystack's amount matches what WE recorded at initiation.
+      const payment = await Payment.findOne({ reference: event.data.reference });
+      if (payment && event.data.amount === payment.amount) {
+        await confirmPayment(event.data.reference);
+      } else {
+        console.error('Webhook ignored: unknown reference or amount mismatch', event.data.reference);
+      }
     }
     // Paystack failure events don't need handling — a failed/abandoned
     // Payment simply stays 'initiated' forever (BR-06).
@@ -87,7 +93,7 @@ async function manualVerify(req, res, next) {
 
     // Not confirmed in our DB yet — ask Paystack directly as a second opinion.
     const paystackTx = await verifyTransaction(reference);
-    if (paystackTx.status === 'success') {
+        if (paystackTx.status === 'success' && paystackTx.amount === payment.amount) {
       const result = await confirmPayment(reference);
       return res.json({ status: result.payment.status });
     }
