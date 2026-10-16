@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Your Tickets | OKIZZ Entertainment</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/public.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/tickets.css">
+<link rel="stylesheet" href="css/server-status.css">
+</head>
+
+<body>
+
+<div id="serverCheckOverlay" class="server-check-overlay">
+  <div class="server-check-spinner"></div>
+  <p class="server-check-text">Connecting to server…</p>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="images/okizz_ligo.png" alt="OKIZZ Entertainment" class="nav-logo">
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="register.html">Register</a>
+    <a href="tickets.html" class="active">Tickets</a>
+  </div>
+</nav>
+
+<header class="hero hero-compact">
+  <div class="hero-compact-inner">
+    <p class="kicker">YOUR TICKETS</p>
+    <h1>Show this <span>at the gate</span></h1>
+    <p class="hero-tagline">Save each ticket to your phone. Every ticket has its own QR code and works once.</p>
+  </div>
+</header>
+
+<main class="tk-main">
+  <div id="statusBox" class="tc-status"></div>
+  <div id="orderHead" class="tc-head" style="display:none;"></div>
+  <div id="ticketList" class="tc-list"></div>
+  <button class="tk-btn tk-btn-block" id="downloadAllBtn" style="display:none;"><i class="fa-solid fa-download"></i> Download all tickets</button>
+</main>
+
+<script src="js/server-check.js"></script>
+<script src="js/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="js/ticket-confirmation.js"></script>
+</body>
+</html>
