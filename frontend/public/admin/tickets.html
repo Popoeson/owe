@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tickets — Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body class="admin-body">
+
+<div id="adminNav"></div>
+
+<main class="admin-main">
+  <div class="admin-page-head-row">
+    <div>
+      <h1 class="admin-page-title">Tickets</h1>
+      <p class="admin-page-sub">Create the ticket types fans can buy.</p>
+    </div>
+    <button class="btn btn-primary" id="addTierBtn"><i class="fa-solid fa-plus"></i> Add ticket</button>
+  </div>
+
+  <div id="tierList" class="admin-performer-list">
+    <p class="admin-empty-state">Loading…</p>
+  </div>
+</main>
+
+<div class="admin-modal-backdrop" id="tierModalBackdrop" style="display:none;">
+  <div class="admin-modal">
+    <div class="admin-modal-head">
+      <h3 id="tierModalTitle">Add ticket</h3>
+      <button class="admin-modal-close" id="closeTierModal">&times;</button>
+    </div>
+
+    <div class="field">
+      <label for="tier_name">Ticket type</label>
+      <input type="text" id="tier_name" list="tierNameOptions" placeholder="e.g. VIP" maxlength="40">
+      <datalist id="tierNameOptions">
+        <option value="Regular"></option>
+        <option value="VIP"></option>
+        <option value="Silver"></option>
+        <option value="Gold"></option>
+        <option value="Platinum"></option>
+      </datalist>
+    </div>
+
+    <div class="field">
+      <label for="tier_category">Category</label>
+      <input type="text" id="tier_category" placeholder="e.g. General, Premium" maxlength="40">
+    </div>
+
+    <div class="field">
+      <label for="tier_description">Ticket info</label>
+      <textarea id="tier_description" placeholder="Perks, seating, entry notes…" maxlength="500"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="tier_price">Price (₦)</label>
+      <input type="number" id="tier_price" min="1" step="any" placeholder="e.g. 5000">
+      <p class="hint">Price changes only affect tickets bought after the change.</p>
+    </div>
+
+    <p class="error-text" id="tierError" style="display:none;"></p>
+    <button class="btn btn-primary" id="saveTierBtn" style="width:100%;">Save ticket</button>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/admin/authGuard.js"></script>
+<script src="../js/admin/nav.js"></script>
+<script>renderAdminNav('tickets');</script>
+<script src="../js/admin/tickets.js"></script>
+</body>
+</html>
