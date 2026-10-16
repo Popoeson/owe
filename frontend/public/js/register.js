@@ -41,7 +41,7 @@ document.getElementById('photoInput').addEventListener('change', async (e) => {
   setUploadStatus(status, 'Uploading…');
 
   try {
-    photoUrl = await uploadToCloudinary(file, 'image', { onProgress: (p) => fill.style.width = `${p}%` });
+        photoUrl = await uploadToCloudinary(file, { onProgress: (p) => fill.style.width = `${p}%` });
     setUploadStatus(status, 'Photo uploaded', 'done');
   } catch (err) {
     setUploadStatus(status, err.message, 'fail');
