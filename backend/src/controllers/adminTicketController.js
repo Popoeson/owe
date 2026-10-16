@@ -3,6 +3,17 @@ const TicketTier = require('../models/TicketTier');
 const Ticket = require('../models/Ticket');
 
 const toKobo = (naira) => Math.round(Number(naira) * 100);
+
+const inRange = (v, min, max) => typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max;
+// Returns only the QR fields that were sent; null if any is invalid
+function parseQr({ qrX, qrY, qrSize }) {
+  const out = {};
+  if (qrX !== undefined) { if (!inRange(qrX, 0, 1)) return null; out.qrX = qrX; }
+  if (qrY !== undefined) { if (!inRange(qrY, 0, 1)) return null; out.qrY = qrY; }
+  if (qrSize !== undefined) { if (!inRange(qrSize, 0.05, 0.5)) return null; out.qrSize = qrSize; }
+  return out;
+}
+
 const adminTier = (t) => ({
   id: t._id,
   name: t.name,
@@ -10,6 +21,9 @@ const adminTier = (t) => ({
   description: t.description,
   priceNaira: t.price / 100,
   imageUrl: t.imageUrl || '',
+  qrX: t.qrX,
+  qrY: t.qrY,
+  qrSize: t.qrSize,
   isActive: t.isActive,
 });
 
@@ -24,18 +38,22 @@ exports.listTiers = async (req, res) => {
   }
 };
 
-// POST /api/admin/tickets/tiers   { name, category, description, priceNaira, imageUrl }
+// POST /api/admin/tickets/tiers
+// { name, category, description, priceNaira, imageUrl, qrX, qrY, qrSize }
 exports.createTier = async (req, res) => {
   try {
-    const { name, category, description, priceNaira, imageUrl } = req.body;
+    const { name, category, description, priceNaira, imageUrl, qrX, qrY, qrSize } = req.body;
     if (!name?.trim() || !category?.trim()) {
       return res.status(400).json({ message: 'Name and category are required.' });
     }
     if (!(Number(priceNaira) > 0)) {
       return res.status(400).json({ message: 'Enter a price greater than 0.' });
     }
+    const qr = parseQr({ qrX, qrY, qrSize });
+    if (qr === null) return res.status(400).json({ message: 'Invalid QR position.' });
+
     const tier = await TicketTier.create({
-      name, category, description, imageUrl, price: toKobo(priceNaira),
+      name, category, description, imageUrl, price: toKobo(priceNaira), ...qr,
     });
     res.status(201).json({ tier: adminTier(tier) });
   } catch (err) {
@@ -49,12 +67,15 @@ exports.createTier = async (req, res) => {
 exports.updateTier = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) return res.status(400).json({ message: 'Invalid id.' });
-    const { name, category, description, priceNaira, isActive, imageUrl } = req.body;
+    const { name, category, description, priceNaira, isActive, imageUrl, qrX, qrY, qrSize } = req.body;
     const update = {};
     if (name !== undefined) update.name = name;
     if (category !== undefined) update.category = category;
     if (description !== undefined) update.description = description;
     if (imageUrl !== undefined) update.imageUrl = imageUrl;
+    const qr = parseQr({ qrX, qrY, qrSize });
+    if (qr === null) return res.status(400).json({ message: 'Invalid QR position.' });
+    Object.assign(update, qr);
     if (isActive !== undefined) update.isActive = !!isActive;
     if (priceNaira !== undefined) {
       if (!(Number(priceNaira) > 0)) return res.status(400).json({ message: 'Enter a price greater than 0.' });
