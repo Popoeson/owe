@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Door Scanner | OKIZZ Entertainment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/scan.css">
+<link rel="stylesheet" href="css/server-status.css">
+</head>
+
+<body class="scan-body">
+
+<div id="serverCheckOverlay" class="server-check-overlay">
+  <div class="server-check-spinner"></div>
+  <p class="server-check-text">Connecting to server…</p>
+</div>
+
+<header class="scan-head">
+  <img src="images/okizz_ligo.png" alt="OKIZZ Entertainment" class="scan-logo">
+  <span class="scan-kicker">DOOR SCANNER</span>
+</header>
+
+<main class="scan-main">
+
+  <!-- 1. Door code -->
+  <section id="lockView" class="scan-card">
+    <h1>Door staff only</h1>
+    <p class="scan-sub">Enter the door code to start scanning tickets.</p>
+    <input type="password" id="doorCodeInput" class="scan-input" placeholder="Door code" autocomplete="off">
+    <p class="scan-error" id="lockError" style="display:none;"></p>
+    <button class="scan-btn" id="unlockBtn">Unlock scanner</button>
+  </section>
+
+  <!-- 2. Camera -->
+  <section id="scanView" style="display:none;">
+    <div class="scan-video-wrap">
+      <video id="video" playsinline muted></video>
+      <div class="scan-frame"></div>
+    </div>
+    <p class="scan-error" id="cameraError" style="display:none;"></p>
+    <p class="scan-hint">Point the camera at the ticket's QR code.</p>
+
+    <div class="scan-manual">
+      <input type="text" id="manualInput" class="scan-input" placeholder="Or type the ticket code" autocomplete="off" autocapitalize="characters">
+      <button class="scan-btn secondary" id="manualBtn">Check</button>
+    </div>
+
+    <button class="scan-link" id="lockBtn"><i class="fa-solid fa-lock"></i> Lock scanner</button>
+  </section>
+
+  <!-- 3. Result -->
+  <section id="resultView" class="scan-result" style="display:none;">
+    <i id="resultIcon" class="fa-solid"></i>
+    <h2 id="resultLabel"></h2>
+    <div id="resultDetails" class="scan-result-details"></div>
+    <button class="scan-btn light" id="nextBtn">Scan next ticket</button>
+  </section>
+
+</main>
+
+<canvas id="canvas" hidden></canvas>
+
+<script src="js/server-check.js"></script>
+<script src="js/api.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script src="js/scan.js"></script>
+</body>
+</html>
