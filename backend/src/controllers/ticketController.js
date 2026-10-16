@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const TicketTier = require('../models/TicketTier');
 const Ticket = require('../models/Ticket');
 const Payment = require('../models/Payment');
+const { initializeTransaction } = require('../services/paystackService');
 
 const MAX_PER_ORDER = 10;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,7 +50,7 @@ exports.initiatePurchase = async (req, res) => {
     if (!tier) return res.status(404).json({ message: 'This ticket is no longer available.' });
 
     const amount = tier.price * qty; // kobo; price snapshot taken now (BR-03)
-    const reference = `TKT-${crypto.randomBytes(8).toString('hex')}`;
+    const reference = `okizz_tkt_${crypto.randomBytes(8).toString('hex')}`;
 
     const payment = await Payment.create({
       reference,
@@ -67,29 +68,14 @@ exports.initiatePurchase = async (req, res) => {
       },
     });
 
-    const r = await fetch('https://api.paystack.co/transaction/initialize', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: payment.payerEmail,
-        amount,
-        reference,
-        callback_url: `${process.env.FRONTEND_URL}/callback.html`, // match your registration callback path
-        metadata: { type: 'ticket', tierName: tier.name, quantity: qty },
-      }),
+    const tx = await initializeTransaction({
+      email: payment.payerEmail,
+      amountKobo: amount,
+      reference,
+      callbackUrl: `${process.env.FRONTEND_URL}/callback.html`
     });
-    const data = await r.json();
 
-    if (!r.ok || !data.status) {
-      payment.status = 'failed';
-      await payment.save();
-      return res.status(502).json({ message: 'Could not start payment. Please try again.' });
-    }
-
-    res.json({ authorizationUrl: data.data.authorization_url, reference });
+    res.json({ authorizationUrl: tx.authorization_url, reference });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Something went wrong. Please try again.' });
