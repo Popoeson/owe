@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Tickets | OKIZZ Entertainment</title>
+<meta name="description" content="Buy tickets for the OKIZZ Entertainment show. Pick your ticket types, pay securely, and download your QR tickets.">
+<link rel="canonical" href="https://okizzentertainment.com.ng/tickets.html">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OKIZZ Entertainment">
+<meta property="og:title" content="Tickets | OKIZZ Entertainment">
+<meta property="og:description" content="Buy tickets for the OKIZZ Entertainment show. Pick your ticket types, pay securely, and download your QR tickets.">
+<meta property="og:url" content="https://okizzentertainment.com.ng/tickets.html">
+<meta property="og:image" content="https://okizzentertainment.com.ng/images/og-banner.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/public.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/tickets.css">
+<link rel="stylesheet" href="css/server-status.css">
+</head>
+
+<body>
+
+<div id="serverCheckOverlay" class="server-check-overlay">
+  <div class="server-check-spinner"></div>
+  <p class="server-check-text">Connecting to server…</p>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <img src="images/okizz_ligo.png" alt="OKIZZ Entertainment" class="nav-logo">
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="register.html">Register</a>
+    <a href="tickets.html" class="active">Tickets</a>
+  </div>
+</nav>
+
+<header class="hero hero-compact">
+  <div class="hero-compact-inner">
+    <p class="kicker">TICKETS</p>
+    <h1>Get your <span>tickets</span></h1>
+    <p class="hero-tagline">Pick as many ticket types as you like, pay once, and download a QR ticket for every seat.</p>
+  </div>
+</header>
+
+<main class="tk-main">
+  <p class="tk-status" id="tierStatus">Loading tickets…</p>
+  <div id="tierGrid" class="tk-grid"></div>
+
+  <section class="tk-find">
+    <h2>Already paid?</h2>
+    <p>Enter your payment reference (it's on your Paystack receipt) to get your tickets again.</p>
+    <div class="tk-find-row">
+      <input type="text" id="findRef" class="tk-input" placeholder="okizz_tkt_…" autocomplete="off">
+      <button class="tk-btn tk-btn-secondary" id="findBtn">Find tickets</button>
+    </div>
+    <div id="recentOrders"></div>
+  </section>
+</main>
+
+<div class="tk-cartbar" id="cartBar" style="display:none;">
+  <div class="tk-cartbar-info">
+    <span id="cartCount"></span>
+    <strong id="cartTotal"></strong>
+  </div>
+  <button class="tk-btn" id="checkoutBtn">Checkout <i class="fa-solid fa-arrow-right"></i></button>
+</div>
+
+<div class="tk-sheet-backdrop" id="sheetBackdrop" style="display:none;">
+  <div class="tk-sheet">
+    <div class="tk-sheet-head">
+      <h3>Your order</h3>
+      <button class="tk-sheet-close" id="closeSheet" aria-label="Close">&times;</button>
+    </div>
+
+    <div id="orderLines" class="tk-lines"></div>
+    <div class="tk-total-row"><span>Total</span><strong id="sheetTotal"></strong></div>
+
+    <div class="tk-field">
+      <label for="buyerName">Full name</label>
+      <input type="text" id="buyerName" class="tk-input" autocomplete="name">
+      <p class="tk-hint">Printed on your tickets.</p>
+    </div>
+    <div class="tk-field">
+      <label for="buyerEmail">Email</label>
+      <input type="email" id="buyerEmail" class="tk-input" autocomplete="email">
+      <p class="tk-hint">Used for your payment receipt.</p>
+    </div>
+
+    <p class="tk-error" id="sheetError" style="display:none;"></p>
+    <button class="tk-btn tk-btn-block" id="payBtn"><i class="fa-solid fa-lock"></i> Pay securely</button>
+    <p class="tk-note">The final amount is confirmed by our server. Your tickets are issued only after Paystack confirms payment.</p>
+  </div>
+</div>
+
+<script src="js/server-check.js"></script>
+<script src="js/api.js"></script>
+<script src="js/tickets.js"></script>
+</body>
+</html>
