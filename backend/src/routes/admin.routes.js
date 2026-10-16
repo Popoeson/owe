@@ -7,6 +7,7 @@ const performers = require('../controllers/performerAdminController');
 const { listPayments } = require('../controllers/paymentAdminController');
 const { getSettings, updateSettings } = require('../controllers/settingsAdminController');
 const sessions = require('../controllers/sessionAdminController');
+const tickets = require('../controllers/adminTicketController');
 
 router.post('/login', login);
 router.post('/logout', logout);
@@ -34,5 +35,11 @@ router.post('/sessions', requireAdmin, sessions.createSession);
 router.patch('/sessions/:id/pause', requireAdmin, sessions.pauseSession);
 router.patch('/sessions/:id/resume', requireAdmin, sessions.resumeSession);
 router.patch('/sessions/:id/end', requireAdmin, sessions.endSession);
+
+router.get('/tickets/tiers', requireAdmin, tickets.listTiers);
+router.post('/tickets/tiers', requireAdmin, tickets.createTier);
+router.put('/tickets/tiers/:id', requireAdmin, tickets.updateTier);
+router.delete('/tickets/tiers/:id', requireAdmin, tickets.hideTier);
+router.post('/tickets/scan', requireAdmin, tickets.scan);
 
 module.exports = router;
