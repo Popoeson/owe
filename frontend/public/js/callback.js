@@ -1,6 +1,23 @@
 const params = new URLSearchParams(window.location.search);
 const reference = params.get('reference') || params.get('trxref');
-const card = document.getElementById('statusCard');
+const card = const card = document.getElementById('statusCard');
+
+// Asked of the backend (never decided by the page): what kind of payment is this?
+let paymentType = null;
+const RETRY = {
+  registration: { href: 'register.html', label: 'Try again' },
+  vote: { href: 'stat-board.html', label: 'Back to Stat Board' },
+  ticket: { href: 'tickets.html', label: 'Back to tickets' }
+};
+
+async function loadType() {
+  if (paymentType || !reference) return paymentType;
+  try {
+    const details = await apiGet(`/payments/${encodeURIComponent(reference)}`);
+    paymentType = details.type;
+  } catch {}
+  return paymentType;
+}
 
 const POLL_INTERVAL_MS = 3000;
 const POLL_TIMEOUT_MS = 45000;
