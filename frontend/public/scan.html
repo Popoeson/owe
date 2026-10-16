@@ -44,7 +44,11 @@
       <div class="scan-frame"></div>
     </div>
     <p class="scan-error" id="cameraError" style="display:none;"></p>
-    <p class="scan-hint">Point the camera at the ticket's QR code.</p>
+        <p class="scan-hint">Point the camera at the ticket's QR code. It scans automatically, or tap Scan.</p>
+    <button class="scan-btn scan-now" id="scanNowBtn"><i class="fa-solid fa-expand"></i> Scan</button>
+    <p class="scan-msg" id="scanMsg" style="display:none;"></p>
+    <button class="scan-btn secondary full" id="photoBtn"><i class="fa-solid fa-camera"></i> Scan from photo</button>
+    <input type="file" id="photoInput" accept="image/*" capture="environment" hidden>
 
     <div class="scan-manual">
       <input type="text" id="manualInput" class="scan-input" placeholder="Or type the ticket code" autocomplete="off" autocapitalize="characters">
