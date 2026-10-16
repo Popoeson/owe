@@ -3,13 +3,14 @@ const Payment = require('../models/Payment');
 const Settings = require('../models/Settings');
 const Vote = require('../models/Vote');
 const Session = require('../models/Session');
+const Ticket = require('../models/Ticket');
 
 async function getStats(req, res, next) {
   try {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
 
-    const [pendingCount, approvedCount, registrationAgg, votingAgg, settings, totalVotesAgg, votesTodayAgg, activeSession] = await Promise.all([
+    const [pendingCount, approvedCount, registrationAgg, votingAgg, settings, totalVotesAgg, votesTodayAgg, activeSession, ticketAgg, ticketsSold] = await Promise.all([
       Performer.countDocuments({ status: 'pending' }),
       Performer.countDocuments({ status: 'approved', isActive: true }),
       Payment.aggregate([
@@ -30,17 +31,19 @@ async function getStats(req, res, next) {
         { $unwind: '$allocations' },
         { $group: { _id: null, total: { $sum: '$allocations.quantity' } } }
       ]),
-      Session.findOne({ status: 'active' })
+      Session.findOne({ status: 'active' }),
+      Payment.aggregate([
+        { $match: { type: 'ticket', status: 'confirmed' } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      Ticket.countDocuments()
     ]);
 
     const registrationRevenue = registrationAgg[0]?.total || 0;
     const votingRevenue = votingAgg[0]?.total || 0;
     const totalVotesCast = totalVotesAgg[0]?.total || 0;
     const votesToday = votesTodayAgg[0]?.total || 0;
-
-    // Tickets phase not built yet.
-    const ticketRevenue = 0;
-    const ticketsSold = 0;
+    const ticketRevenue = ticketAgg[0]?.total || 0;
 
     res.json({
       pendingPerformers: pendingCount,
