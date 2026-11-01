@@ -383,10 +383,23 @@ function showResult(result, data) {
   } else if (result === 'used') {
     view.classList.add('is-bad');
     icon.classList.add('fa-triangle-exclamation');
-    label.textContent = 'ALREADY USED';
+        label.textContent = 'FULLY USED';
     if (t) addLine(details, [t.tierName, t.category].filter(Boolean).join(' · '), true);
-    if (data.usedAt) addLine(details, `Scanned at ${formatTime(data.usedAt)}`);
+    if (data.maxScans) addLine(details, `Already scanned ${data.maxScans} of ${data.maxScans} times.`);
+    if (Array.isArray(data.scanTimes) && data.scanTimes.length) {
+      addLine(details, `Scanned at ${data.scanTimes.map(formatTime).join(' and ')}`);
+    } else if (data.usedAt) {
+      addLine(details, `Last scanned at ${formatTime(data.usedAt)}`);
+    }
     if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+  } else if (result === 'recent') {
+    view.classList.add('is-warn');
+    icon.classList.add('fa-clock');
+    label.textContent = 'JUST SCANNED';
+    if (t) addLine(details, [t.tierName, t.category].filter(Boolean).join(' · '), true);
+    addLine(details, 'No entry used. This ticket was scanned a moment ago.');
+    if (data.maxScans) addLine(details, `Entries used: ${data.scanCount} of ${data.maxScans}.`);
+    if (navigator.vibrate) navigator.vibrate(60);
   } else if (result === 'invalid') {
     view.classList.add('is-bad');
     icon.classList.add('fa-circle-xmark');
