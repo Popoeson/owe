@@ -237,7 +237,7 @@ async function showTickets(data) {
         <div>
           <strong>${esc(t.tierName)}</strong>
           <span>Ticket ${t.seq} of ${total}</span>
-          ${t.status === 'used' ? '<em class="tc-used">ALREADY USED</em>' : ''}
+          ${t.status === 'used' ? '<em class="tc-used">FULLY USED</em>' : ''}
         </div>
         <button class="tk-btn tk-btn-small" data-i="${i}"><i class="fa-solid fa-download"></i> Download</button>
       </div>
