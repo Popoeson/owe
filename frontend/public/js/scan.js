@@ -370,7 +370,14 @@ function showResult(result, data) {
     if (t) {
       addLine(details, [t.tierName, t.category].filter(Boolean).join(' · '), true);
       addLine(details, t.buyerName);
-      addLine(details, `Ticket ${t.seq}`);
+            addLine(details, `Ticket ${t.seq}`);
+    }
+    if (data.maxScans) {
+      addLine(details, data.scansLeft > 0
+        ? `Entry ${data.scanCount} of ${data.maxScans}. ${data.scansLeft} scan${data.scansLeft === 1 ? '' : 's'} left.`
+        : `Entry ${data.scanCount} of ${data.maxScans}. Last entry: ticket is now fully used.`, true);
+    }
+    if (navigator.vibrate) navigator.vibrate(80);
     }
     if (navigator.vibrate) navigator.vibrate(80);
   } else if (result === 'used') {
