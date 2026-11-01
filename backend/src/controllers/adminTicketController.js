@@ -107,28 +107,8 @@ exports.hideTier = async (req, res) => {
 // Atomic: two scanners hitting the same code can never both get "valid".
 exports.scan = async (req, res) => {
   try {
-    const code = String(req.body.code || '').trim().toUpperCase();
-    if (!code) return res.status(400).json({ result: 'invalid', message: 'No code scanned.' });
-
-    const ticket = await Ticket.findOneAndUpdate(
-      { qrCode: code, status: 'issued' },
-      { status: 'used', usedAt: new Date() },
-      { new: true }
-    ).populate('tierId', 'name category');
-
-    if (ticket) {
-      return res.json({
-        result: 'valid',
-        message: 'Valid ticket. Admit.',
-        ticket: { tierName: ticket.tierId?.name, category: ticket.tierId?.category, buyerName: ticket.buyerName, seq: ticket.seq },
-      });
-    }
-
-    const existing = await Ticket.findOne({ qrCode: code });
-    if (existing) {
-      return res.status(409).json({ result: 'used', message: 'Already used.', usedAt: existing.usedAt });
-    }
-    res.status(404).json({ result: 'invalid', message: 'Invalid ticket.' });
+    const { status, body } = await scanTicketCode(req.body.code);
+    res.status(status).json(body);
   } catch (err) {
     console.error(err);
     res.status(500).json({ result: 'error', message: 'Scan failed. Try again.' });
