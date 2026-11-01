@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const TicketTier = require('../models/TicketTier');
-const Ticket = require('../models/Ticket');
+const { scanTicketCode } = require('../services/ticketScan');
 
 const toKobo = (naira) => Math.round(Number(naira) * 100);
 
