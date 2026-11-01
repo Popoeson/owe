@@ -10,7 +10,9 @@ const ticketSchema = new mongoose.Schema({
   pricePaid: { type: Number, required: true },                 // kobo, snapshot at purchase
   status: { type: String, enum: ['issued', 'used'], default: 'issued' },
   issuedAt: { type: Date, default: Date.now },
-  usedAt: { type: Date, default: null },
+    usedAt: { type: Date, default: null },               // time of the most recent scan
+  scanCount: { type: Number, default: 0 },             // how many entries have been used
+  scanLog: [{ type: Date }],                           // when each counted scan happened
 });
 
 // Makes double-issuing for one payment impossible at the database level
