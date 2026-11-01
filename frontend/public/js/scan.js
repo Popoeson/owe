@@ -377,9 +377,7 @@ function showResult(result, data) {
         ? `Entry ${data.scanCount} of ${data.maxScans}. ${data.scansLeft} scan${data.scansLeft === 1 ? '' : 's'} left.`
         : `Entry ${data.scanCount} of ${data.maxScans}. Last entry: ticket is now fully used.`, true);
     }
-    if (navigator.vibrate) navigator.vibrate(80);
-    }
-    if (navigator.vibrate) navigator.vibrate(80);
+        if (navigator.vibrate) navigator.vibrate(80);
   } else if (result === 'used') {
     view.classList.add('is-bad');
     icon.classList.add('fa-triangle-exclamation');
